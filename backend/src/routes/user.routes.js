@@ -3,10 +3,12 @@ import express from "express";
 import {
   getProfile,
   updateProfile,
-  changePassword
+  changePassword,
+  uploadProfilePicture,
 } from "../controllers/user.controller.js";
 
 import { verifyToken } from "../middlewares/verify.middleware.js";
+import { upload } from "../middlewares/upload.middleware.js";
 
 const router = express.Router();
 
@@ -32,11 +34,11 @@ router.put(
 );
 
 // Upload profile picture
-// router.post(
-//   "/profile-picture",
-//   verifyToken,
-//   upload.single("file"),
-//   uploadProfilePicture
-// );
+router.post(
+  "/profile-picture",
+  verifyToken,
+  upload.single("file"),
+  uploadProfilePicture
+);
 
 export default router;
