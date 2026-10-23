@@ -1,40 +1,42 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-import AuthContext from "./AuthContext.js";
 import { useNavigate } from "react-router";
+import AuthContext from "./AuthContext.js";
 
 function AuthContextProvider({ children }) {
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
     const getProfile = async () => {
         try {
-          console.log("Running getProfile");
             const api = `${import.meta.env.VITE_BACKEND_BASE_URL}/user/profile`;
+            console.log(api);
             const options = {
                 method: "GET",
-                credentials: "include" // include cookies
+                credentials: "include",
             };
             const res = await fetch(api, options);
             const data = await res.json();
 
-            if (!res.ok) {
-                // some error
-                throw new Error("Fetch failed");
+            if(!res.ok){
+                throw new Error("Cannot fetch details");
             }
-            if (data) {
+            if(data){
                 setUser(data.user);
-                console.log(user);
             }
-        } catch (err) {
+        }
+        catch (err) {
+            // console.log(err.message);
             setUser(null);
         }
     };
 
-    useEffect(()=>{
-      getProfile();
+    useEffect(() => {
+        getProfile();
     }, []);
 
+    // LOGOUT
     async function logout(){
         console.log("logging out");
         try{
@@ -64,9 +66,10 @@ function AuthContextProvider({ children }) {
         <AuthContext.Provider
             value={{
                 user,
+                loading,
+                logout,
                 setUser,
-                getProfile,
-                logout
+                getProfile
             }}
         >
             {children}
