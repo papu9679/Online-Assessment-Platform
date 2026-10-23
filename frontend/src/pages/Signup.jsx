@@ -9,16 +9,22 @@ function Signup() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
+    const [loading, setLoading] = useState(false);
 
-    async function handleSubmit(e){
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // set error and success to ""
+        console.log({
+            name,
+            email,
+            password,
+        });
+
         setError("");
         setSuccess("");
 
-        // API call
-        try{
+        // Signup API call here
+        try {
             const api = `${import.meta.env.VITE_BACKEND_BASE_URL}/auth/signup`;
             const options = {
                 // 1. Specify the HTTP method
@@ -40,23 +46,29 @@ function Signup() {
                 }),
             };
 
-            console.log(api);
-
+            // console.log(api);
+            setLoading(true);
             const res = await fetch(api, options);
             const data = await res.json();
 
-            if(!res.ok){
+            if (!res.ok) {
                 throw new Error(data.message);
             }
 
-            if(data){
+            if (data) {
                 setSuccess(data.message);
+                console.log(data.message);
+                setName("");
+                setEmail("");
+                setPassword("");
+                console.log("Done");
             }
-        }
-        catch(err){
+        } catch (err) {
             setError(err.message);
+        } finally {
+            setLoading(false);
         }
-    }
+    };
 
     return (
         <main className="relative flex min-h-[calc(100vh-73px)] items-center justify-center overflow-hidden bg-slate-950 px-6 py-12 text-white">
@@ -238,27 +250,41 @@ function Signup() {
                             </div>
                         </div>
 
-                        {
-                            error && <FormError error = {error}></FormError>
-                        } 
+                        {error && <FormError error={error}></FormError>}
 
-
-                        {
-                            success && 
+                        {success && (
                             <FormSuccess success={success}></FormSuccess>
-                        }
+                        )}
 
                         {/* ================= SIGNUP BUTTON ================= */}
+
                         <button
                             type="submit"
-                            className="group/btn mt-2 w-full rounded-xl bg-violet-600 px-5 py-3.5 text-sm font-semibold text-white shadow-lg shadow-violet-500/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-violet-500 hover:shadow-xl hover:shadow-violet-500/30 active:translate-y-0"
+                            disabled={loading}
+                            className={`
+    group/btn mt-2 w-full rounded-xl px-5 py-3.5
+    text-sm font-semibold text-white
+    transition-all duration-300
+    ${
+        loading
+            ? "cursor-not-allowed bg-violet-600/60"
+            : "bg-violet-600 shadow-lg shadow-violet-500/20 hover:-translate-y-0.5 hover:bg-violet-500 hover:shadow-xl hover:shadow-violet-500/30 active:translate-y-0"
+    }
+  `}
                         >
-                            <span className="flex items-center justify-center gap-2">
-                                Create Account
-                                <span className="transition-transform duration-300 group-hover/btn:translate-x-1">
-                                    →
+                            {loading ? (
+                                <span className="flex items-center justify-center gap-3">
+                                    <span className="h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                                    Creating Account...
                                 </span>
-                            </span>
+                            ) : (
+                                <span className="flex items-center justify-center gap-2">
+                                    Create Account
+                                    <span className="transition-transform duration-300 group-hover/btn:translate-x-1">
+                                        →
+                                    </span>
+                                </span>
+                            )}
                         </button>
                     </form>
 

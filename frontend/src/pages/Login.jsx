@@ -10,18 +10,28 @@ function Login() {
 
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
-    const {getProfile} = useContext(AuthContext);
+    const { getProfile } = useContext(AuthContext);
 
-    const handleSubmit = async (e)=>{
-      e.preventDefault();
-      setError("");
-      setSuccess("");
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-      try{
-        const api = `${import.meta.env.VITE_BACKEND_BASE_URL}/auth/login`;
-        const options = {
+        console.log({
+            email,
+            password,
+        });
+        setError("");
+        setSuccess("");
+        setLoading(false);
+
+        // Login API call
+        try {
+            setLoading(true);
+            const api = `${import.meta.env.VITE_BACKEND_BASE_URL}/auth/login`;
+            console.log(api);
+            const options = {
                 // 1. Specify the HTTP method
                 method: "POST",
 
@@ -38,26 +48,26 @@ function Login() {
                     email,
                     password,
                 }),
-            };       
+            };
 
-        const res = await fetch(api, options);
-        const data = await res.json();
+            const res = await fetch(api, options);
+            const data = await res.json();
 
-        if(!res.ok){
-          throw new Error(data.message);
+            if (!res.ok) {
+                throw new Error(data.message);
+            }
+
+            if (data) {
+                setSuccess(data.message);
+                await getProfile();
+                navigate("/");
+            }
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
         }
-
-        if(data){
-          console.log("Running getProfile");
-          setSuccess(data.message);
-          await getProfile();
-          navigate('/');
-        }
-      }
-      catch(err){
-        setError(err.message);
-      }
-    }    
+    };
 
     return (
         <main className="relative flex min-h-[calc(100vh-73px)] items-center justify-center overflow-hidden bg-slate-950 px-6 py-12 text-white">
@@ -220,13 +230,23 @@ function Login() {
                         <button
                             type="submit"
                             onClick={handleSubmit}
-                            className="group/btn mt-2 w-full rounded-xl bg-violet-600 px-5 py-3.5 text-sm font-semibold text-white shadow-lg shadow-violet-500/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-violet-500 hover:shadow-xl hover:shadow-violet-500/30 active:translate-y-0"
+                            disabled={loading}
+                            className="group/btn mt-2 w-full rounded-xl bg-violet-600 px-5 py-3.5 text-sm font-semibold text-white shadow-lg shadow-violet-500/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-violet-500 hover:shadow-xl hover:shadow-violet-500/30 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
                         >
                             <span className="flex items-center justify-center gap-2">
-                                Login
-                                <span className="transition-transform duration-300 group-hover/btn:translate-x-1">
-                                    →
-                                </span>
+                                {loading ? (
+                                    <>
+                                        <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white"></span>
+                                        Logging in...
+                                    </>
+                                ) : (
+                                    <>
+                                        Login
+                                        <span className="transition-transform duration-300 group-hover/btn:translate-x-1">
+                                            →
+                                        </span>
+                                    </>
+                                )}
                             </span>
                         </button>
                     </form>
