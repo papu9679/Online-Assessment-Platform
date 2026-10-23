@@ -1,166 +1,169 @@
 // signup, login, logout, forget-password
-import User from "../models/user.model.js";
-import {hash, compare} from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import welcomeEmail from "../emails/welcome.js"; 
-import { sendEmail } from "../services/email.service.js";
-import forgotPasswordEmail from "../emails/forgotpassword.js";
 
-const signup = async (req, res)=>{
-    try{
-        // const {name, email, password} = req.body;
+import User from "../models/user.model.js";
+import { hash, compare } from "bcrypt";
+import jwt from "jsonwebtoken";
+import forgotPasswordEmail from "../emails/forgotpassword.js";
+import { sendEmail } from "../services/email.service.js";
+import welcomeEmail from "../emails/welcome.js";
+
+const signup = async (req, res) => {
+    try {
+        const {name, email, password} = req.body;
         const user = req.body;
 
         // hashing the password
         const hashedPwd = await hash(user.password, 10);
-        const newUser = {...user, password : hashedPwd};
+
+        const newUser = { ...user, password: hashedPwd };
+
+        // check user exist or not
+        const checkUser = await User.findOne({email});
+        if(checkUser){
+            return res.status(400).json({
+                message : "User Already Exist"
+            })
+        }
 
         // store it in db
         const db_res = await User.create(newUser);
-        console.log(db_res);
+        // console.log(db_res);
 
-        // send an email to the user when he/she registers
-        const to = user.email;
-        const subject = "Congratuations, You've been registered!";
-        const link = `${process.env.FRONTEND_BASE_URL}/login`;    // login
-        const html = welcomeEmail(user.name, link);
-        const mail_response = await sendEmail(to, subject, html);
+        const to = email;
+        const subject = "Welcome to Quizzify!";
+        const loginLink = process.env.FRONTEND_BASE_URL + "/login";
+        const html = welcomeEmail(name, loginLink);
+
+        const mail = await sendEmail(to, subject, html);
 
         // send the response
         res.status(201).json({
-            message : "User created succesfully, Please Login",
-            user : db_res
-        })
-
-    }
-    catch(err){
+            message: "Account Created, Please Login!",
+            // user : db_res
+        });
+    } catch (err) {
         return res.status(500).json({
-            message : "Internal Server Error"
-        })
+            message: "Internal Server Error",
+        });
     }
-}
+};
 
-const login = async (req, res)=>{
-    try{
+const login = async (req, res) => {
+    try {
         // req.body => email, pwd
-        const {email, password : pwd} = req.body;
-
-        console.log(req.body);
+        const { email, password: pwd } = req.body;
 
         // look for the user in db
-        const data = await User.findOne({email});
+        const data = await User.findOne({ email });
 
-        if(!data){
+        if (!data) {
             return res.status(401).json({
-                message : "User does not exist",
-            })
+                message: "User does not exist",
+            });
         }
 
         // compare pwd
         const hashedPwd = data.password;
         const result = await compare(pwd, hashedPwd);
-        
-        console.log("result", result);
-        if(!result){
+
+        if (!result) {
             return res.status(401).json({
-                message : "Incorrect password or email"
-            })
+                message: "Incorrect password or email",
+            });
         }
 
         // generate jwt token
         const payload = {
-            id : data._id,
+            id: data._id,
             // email, pwd, other data
-        }
+        };
 
-        console.log(payload);
-
-        const token = jwt.sign(
-            payload,
-            process.env.JWT_SECRET_KEY
-        )
-
-        console.log("token", token);
+        const token = jwt.sign(payload, process.env.JWT_SECRET_KEY);
+        // console.log("token", token);
 
         // 1. in cookies
-        res.cookie('token', token, {
+        res.cookie("token", token, {
             httpOnly: true, // restrict the access of cookie via JavaScript code
+            secure: true,
+            sameSite: "none"
         });
 
         // 2. inside json
         return res.status(201).json({
-            message : "Logged in",
-            user : {
+            message: "Logged in",
+            user: {
                 name: data.name,
-            }
-            // token,
-        })
-    }
-    catch(err){
+                email: data.email,
+                profilePic: data.profilePic,
+                aiQuizGeneratedCount: data.aiQuizGeneratedCount,
+            },
+        });
+    } catch (err) {
         return res.status(500).json({
-            message : "Internal Server Error"
-        })
+            message: "Internal Server Error",
+        });
     }
-}
+};
 
-const logout = (req, res)=>{
-    console.log("Inside logout");
-    try{
-        console.log("try logout");
-        res.clearCookie('token');
-        console.log("try logout");
-
-        return res.status(201).json({
-            message : "Logout success"
-        })
-    }
-    catch(err){
-        return res.status(500).json({
-            message : "Internal Server Error"
-        })
-    }
-}
-
-const forgotPassword = async (req, res)=>{
-    try{
-        const { email } = req.body;
-
-        const user = await User.findOne({email : email});
-
-        if(!user){
-            return res.status(404).json({
-                message : "User not found"
-            })
-        }
-
-        // genrate a token
-        const payload = {
-            id : user._id
-        }
-        const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
-            expiresIn : "1D"
+const logout = (req, res) => {
+    try {
+        res.clearCookie("token", {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none"
         });
 
-        // send an email
-        // email template
-        const to = email;
-        const subject = "Reset Password Mail";
-        // link => localhost:5173/reset-password/token
-        const link = `${process.env.FRONTEND_BASE_URL}/reset-password/${token}`
+        return res.status(201).json({
+            message: "Logout success",
+        });
+    } catch (err) {
+        return res.status(500).json({
+            message: "Internal Server Error",
+        });
+    }
+};
+
+const forgotPassword = async (req, res) => {
+    try {
+        // 1. Expecting => email
+        const { email } = req.body;
+
+        // 2. Verify email in DB
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User Not Found",
+            });
+        }
+
+        // 3. Create a token
+        const id = user._id;
+        const payload = { id };
+        const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
+            expiresIn: "1d",
+        });
+
+        // 4. Create a link
+        const link = `${process.env.FRONTEND_BASE_URL}/reset-password/${token}`;
+
+        // 5. Template for email
         const html = forgotPasswordEmail(link);
 
-        const response = await sendEmail(to, subject, html);
+        // 6. Send the email
+        const subject = "Reset Your Password";
+        const respose = await sendEmail(email, subject, html);
 
-        return res.json({
-            message : "Password Reset Link has been shared to your email"
-        })
-    }
-    catch(err){
+        // 7. res => success
+        return res.status(200).json({
+            message: "Link sent to your email!",
+        });
+    } catch (err) {
         return res.status(500).json({
-            message : "Server Error"
-        })
+            message: "Server Error",
+        });
     }
-}
+};
 
 const resetPassword = async (req, res) => {
     try {
@@ -207,4 +210,4 @@ const resetPassword = async (req, res) => {
     }
 };
 
-export {signup, login, logout, forgotPassword, resetPassword}
+export { signup, login, logout, forgotPassword, resetPassword };

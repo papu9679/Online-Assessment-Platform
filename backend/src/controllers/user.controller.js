@@ -1,10 +1,10 @@
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import User from "../models/user.model.js";
 
 // GET /api/user/profile
 export const getProfile = async (req, res) => {
   try {
-    console.log("User getting data");
+    // console.log("User getting data");
     const user = await User.findById(req.user.id).select("-password");
 
     if (!user) {
