@@ -5,7 +5,7 @@ import DashboardSidebar from "../components/dashboard/DashboardSidebar.jsx";
 
 function DashboardLayout() {
   return (
-    <div className="min-h-[calc(100vh-64px)] bg-slate-950 text-white">
+    <div className="min-h-[calc(100vh-64px)] bg-[#f8f7f3] text-slate-900">
       
       {/* Background Decoration */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
@@ -21,15 +21,15 @@ function DashboardLayout() {
         <aside
           className="
             w-full
-            border-b border-white/10
-            bg-slate-950/70
+            border-b border-slate-200/80
+            bg-white/60
             backdrop-blur-xl
             md:sticky
             md:top-16
             md:h-[calc(100vh-64px)]
             md:w-64
             md:border-b-0
-            md:border-r
+            md:border-r md:border-slate-200/80
           "
         >
           <DashboardSidebar />
