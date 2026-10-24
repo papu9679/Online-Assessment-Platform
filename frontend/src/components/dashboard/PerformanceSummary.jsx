@@ -28,37 +28,29 @@ function PerformanceSummary({ performance, user }) {
   };
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+    <div className="rounded-[1.5rem] border border-slate-200 bg-white p-6 shadow-sm">
       <div className="flex flex-col items-center text-center">
 
         {/* Profile Photo */}
         <div className="relative">
-          <div className="absolute inset-0 rounded-full bg-indigo-500/20 blur-xl" />
-
-          <img
-            src={user?.profilePic}
-            alt={user?.name || "User"}
-            className="
-              relative
-              h-20
-              w-20
-              rounded-full
-              border-2
-              border-indigo-400/40
-              object-cover
-              shadow-lg
-            "
-          />
+          <div className="absolute inset-0 rounded-full bg-indigo-200/70 blur-xl" />
+          {user?.profilePic ? (
+            <img src={user.profilePic} alt={user?.name || "User"} className="relative h-20 w-20 rounded-full border-4 border-white object-cover shadow-lg" />
+          ) : (
+            <div className="relative flex h-20 w-20 items-center justify-center rounded-full border-4 border-white bg-indigo-600 text-2xl font-black text-white shadow-lg">
+              {user?.name?.[0]?.toUpperCase() || "U"}
+            </div>
+          )}
         </div>
 
         {/* User */}
-        <h2 className="mt-4 text-xl font-semibold text-white">
+        <h2 className="mt-4 text-xl font-black text-slate-900">
           {user?.name || "User"}
         </h2>
 
         {/* Average Score */}
         <div className="mt-4">
-          <p className="text-4xl font-bold text-indigo-400">
+          <p className="text-4xl font-black text-indigo-600">
             {averageScore}%
           </p>
 
@@ -68,14 +60,14 @@ function PerformanceSummary({ performance, user }) {
         </div>
 
         {/* Positive Message */}
-        <p className="mt-4 max-w-sm text-sm leading-relaxed text-slate-300">
+        <p className="mt-4 max-w-sm text-sm leading-relaxed text-slate-500">
           {getMessage()}
         </p>
 
         {/* Stats */}
         <div className="mt-6 grid w-full grid-cols-2 gap-3">
-          <div className="rounded-xl border border-white/5 bg-slate-950/30 p-3">
-            <p className="text-lg font-semibold text-white">
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
+            <p className="text-lg font-black text-slate-900">
               {completedQuizzes}
             </p>
 
@@ -84,8 +76,8 @@ function PerformanceSummary({ performance, user }) {
             </p>
           </div>
 
-          <div className="rounded-xl border border-white/5 bg-slate-950/30 p-3">
-            <p className="text-lg font-semibold text-white">
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
+            <p className="text-lg font-black text-slate-900">
               {generatedQuizzes}
             </p>
 

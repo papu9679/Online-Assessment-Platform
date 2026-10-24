@@ -33,20 +33,20 @@ function QuizCard({ quiz }) {
         group
         flex h-full min-h-[245px] flex-col
         rounded-2xl
-        border border-white/10
-        bg-white/[0.03]
+        border border-slate-200
+        bg-white
         p-5
         transition-all
         duration-300
         hover:-translate-y-1
         hover:border-indigo-500/30
-        hover:bg-white/[0.05]
+        hover:bg-indigo-50/30
       "
     >
       {/* Top */}
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h2 className="text-lg font-semibold text-white">
+          <h2 className="text-lg font-black text-slate-900">
             {title}
           </h2>
 
@@ -56,7 +56,7 @@ function QuizCard({ quiz }) {
         </div>
 
         {/* Status */}
-        <span className="rounded-full bg-white/5 px-3 py-1 text-xs font-medium text-slate-300">
+        <span className="rounded-full bg-indigo-50 px-3 py-1 text-xs font-bold text-indigo-700">
           {status}
         </span>
       </div>
@@ -65,7 +65,7 @@ function QuizCard({ quiz }) {
       <div className="mt-6 flex-1">
         {status === "COMPLETED" ? (
           <>
-            <p className="text-2xl font-bold text-indigo-400">
+            <p className="text-2xl font-black text-indigo-600">
               {percentage}%
             </p>
 
@@ -85,7 +85,7 @@ function QuizCard({ quiz }) {
       </div>
 
       {/* Bottom */}
-      <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-4">
+      <div className="mt-6 flex items-center justify-between border-t border-slate-100 pt-4">
         <p className="text-xs text-slate-500">
           {new Date(createdAt).toLocaleDateString()}
         </p>
@@ -95,9 +95,9 @@ function QuizCard({ quiz }) {
           className="
             text-sm
             font-medium
-            text-indigo-400
+            text-indigo-600
             transition
-            hover:text-indigo-300
+            hover:text-indigo-800
           "
         >
           {actionText} →

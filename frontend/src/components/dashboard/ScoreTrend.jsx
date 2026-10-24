@@ -21,22 +21,22 @@ function CustomTooltip({ active, payload }) {
     <div
       className="
         rounded-xl
-        border border-white/10
-        bg-slate-950/80
+        border border-slate-200
+        bg-white
         px-4 py-3
         shadow-xl
         backdrop-blur-md
       "
     >
-      <p className="font-semibold text-white">
+      <p className="font-bold text-slate-900">
         {quiz.title}
       </p>
 
-      <p className="mt-1 text-xs text-slate-400">
+      <p className="mt-1 text-xs text-slate-500">
         {quiz.topic} • {quiz.difficulty}
       </p>
 
-      <p className="mt-2 text-sm font-medium text-indigo-300">
+      <p className="mt-2 text-sm font-bold text-indigo-600">
         {quiz.score} / {quiz.totalQuestions} ({quiz.percentage}%)
       </p>
 
@@ -50,8 +50,8 @@ function CustomTooltip({ active, payload }) {
 function ScoreTrend({ scoreTrend = [] }) {
   if (!scoreTrend.length) {
     return (
-      <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
-        <h2 className="text-lg font-semibold text-white">
+      <div className="rounded-[1.5rem] border border-slate-200 bg-white p-6 shadow-sm">
+        <h2 className="text-lg font-black text-slate-900">
           Quiz Score Trend
         </h2>
 
@@ -68,11 +68,11 @@ function ScoreTrend({ scoreTrend = [] }) {
   }));
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+    <div className="rounded-[1.5rem] border border-slate-200 bg-white p-6 shadow-sm">
 
       {/* Header */}
       <div>
-        <h2 className="text-lg font-semibold text-white">
+        <h2 className="text-lg font-black text-slate-900">
           Quiz Score Trend
         </h2>
 
@@ -95,14 +95,14 @@ function ScoreTrend({ scoreTrend = [] }) {
           >
             <CartesianGrid
               strokeDasharray="4 4"
-              stroke="rgba(255,255,255,0.06)"
+              stroke="#e2e8f0"
             />
 
             <XAxis
               dataKey="quizNumber"
               stroke="#64748b"
               tick={{
-                fill: "#94a3b8",
+                fill: "#64748b",
                 fontSize: 12,
               }}
               axisLine={false}
@@ -114,7 +114,7 @@ function ScoreTrend({ scoreTrend = [] }) {
               tickFormatter={(value) => `${value}%`}
               stroke="#64748b"
               tick={{
-                fill: "#94a3b8",
+                fill: "#64748b",
                 fontSize: 12,
               }}
               axisLine={false}
@@ -129,18 +129,18 @@ function ScoreTrend({ scoreTrend = [] }) {
             <Line
               type="monotone"
               dataKey="percentage"
-              stroke="#818cf8"
+              stroke="#4f46e5"
               strokeWidth={3}
               dot={{
                 r: 5,
-                fill: "#0f172a",
-                stroke: "#818cf8",
+                fill: "#ffffff",
+                stroke: "#4f46e5",
                 strokeWidth: 3,
               }}
               activeDot={{
                 r: 8,
-                fill: "#818cf8",
-                stroke: "#c4b5fd",
+                fill: "#4f46e5",
+                stroke: "#c7d2fe",
                 strokeWidth: 3,
               }}
             />

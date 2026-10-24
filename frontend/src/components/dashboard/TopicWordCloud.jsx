@@ -3,8 +3,8 @@ import React from "react";
 function TopicWordCloud({ tags = [] }) {
   if (!tags.length) {
     return (
-      <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
-        <h2 className="text-lg font-semibold text-white">
+      <div className="rounded-[1.5rem] border border-slate-200 bg-white p-6 shadow-sm">
+        <h2 className="text-lg font-black text-slate-900">
           Topics Explored
         </h2>
 
@@ -31,10 +31,10 @@ function TopicWordCloud({ tags = [] }) {
   };
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+    <div className="rounded-[1.5rem] border border-slate-200 bg-white p-6 shadow-sm">
       {/* Header */}
       <div>
-        <h2 className="text-lg font-semibold text-white">
+        <h2 className="text-lg font-black text-slate-900">
           Topics Explored
         </h2>
 
@@ -55,8 +55,8 @@ function TopicWordCloud({ tags = [] }) {
           gap-x-6
           gap-y-4
           rounded-xl
-          border border-white/5
-          bg-slate-950/30
+          border border-slate-100
+          bg-slate-50
           p-6
         "
       >
