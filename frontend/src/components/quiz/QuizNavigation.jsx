@@ -12,10 +12,10 @@ function QuizNavigation({
         disabled={selectedOption === null}
         onClick={isLastQuestion ? onSubmit : onNext}
         className="
-          rounded-xl bg-violet-600
-          px-6 py-3 text-sm font-semibold
+          rounded-2xl bg-indigo-600
+          px-6 py-3 text-sm font-bold
           text-white transition
-          hover:bg-violet-500
+          shadow-lg shadow-indigo-600/20 hover:-translate-y-0.5 hover:bg-indigo-700
           disabled:cursor-not-allowed
           disabled:opacity-40
         "

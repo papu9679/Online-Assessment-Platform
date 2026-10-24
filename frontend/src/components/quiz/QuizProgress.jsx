@@ -6,18 +6,18 @@ function QuizProgress({ currentQuestionIndex, totalQuestions }) {
     <div className="mb-6">
 
       <div className="mb-2 flex justify-between text-xs">
-        <span className="text-slate-400">
+        <span className="font-semibold text-slate-600">
           Question {currentQuestionIndex + 1} of {totalQuestions}
         </span>
 
-        <span className="text-slate-500">
+        <span className="font-bold text-indigo-600">
           {Math.round(progress)}%
         </span>
       </div>
 
-      <div className="h-1.5 overflow-hidden rounded-full bg-slate-800">
+      <div className="h-2 overflow-hidden rounded-full bg-slate-200">
         <div
-          className="h-full rounded-full bg-violet-500 transition-all duration-500"
+          className="h-full rounded-full bg-gradient-to-r from-indigo-600 to-orange-400 transition-all duration-500"
           style={{
             width: `${progress}%`,
           }}

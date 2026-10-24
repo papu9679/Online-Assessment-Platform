@@ -4,6 +4,7 @@ import FormError from "../FormError.jsx";
 
 function QuizReady({ quiz }) {
     const [error, setError] = useState("");
+    const [starting, setStarting] = useState(false);
 
     const navigate = useNavigate();
 
@@ -12,6 +13,7 @@ function QuizReady({ quiz }) {
     e.preventDefault();
 
     try{
+        setStarting(true);
         setError("");
         const quizId = quiz._id; 
         const api = `${import.meta.env.VITE_BACKEND_BASE_URL}/quizzes/${quizId}/attempt`;
@@ -35,15 +37,17 @@ function QuizReady({ quiz }) {
     }
     catch(err){
       setError(err.message);
+    } finally {
+      setStarting(false);
     }
   }
 
 
   return (
     <div
-      className="relative overflow-hidden rounded-3xl border border-emerald-500/20
-      bg-slate-900/60 px-6 py-12 shadow-2xl
-      shadow-violet-950/20 backdrop-blur-xl
+      className="relative overflow-hidden rounded-[2rem] border border-emerald-200
+      bg-white px-6 py-12 shadow-2xl
+      shadow-slate-900/10 backdrop-blur-xl
       animate-[fadeIn_0.5s_ease-out] sm:px-10"
     >
       {/* Background Glow */}
@@ -94,8 +98,8 @@ function QuizReady({ quiz }) {
 
         {/* Heading */}
         <h2
-          className="text-2xl font-bold tracking-tight
-          text-white sm:text-3xl"
+          className="text-2xl font-black tracking-tight
+          text-slate-900 sm:text-3xl"
         >
           Your quiz is ready!
         </h2>
@@ -103,7 +107,7 @@ function QuizReady({ quiz }) {
         {/* Description */}
         <p
           className="mt-3 max-w-md text-sm
-          leading-6 text-slate-400"
+          leading-6 text-slate-500"
         >
           Everything is set. Take a moment, get ready,
           and start when you&apos;re comfortable.
@@ -112,8 +116,8 @@ function QuizReady({ quiz }) {
         {/* Quiz Title */}
         <div
           className="mt-8 w-full max-w-lg rounded-2xl
-          border border-white/[0.08]
-          bg-slate-950/40 p-6"
+          border border-slate-200
+          bg-slate-50 p-6"
         >
           <p
             className="text-xs font-medium uppercase
@@ -123,8 +127,8 @@ function QuizReady({ quiz }) {
           </p>
 
           <h3
-            className="mt-2 text-xl font-semibold
-            text-white"
+            className="mt-2 text-xl font-black
+            text-slate-900"
           >
             {quiz.title}
           </h3>
@@ -138,25 +142,25 @@ function QuizReady({ quiz }) {
             <span
               className="rounded-lg border border-violet-500/20
               bg-violet-500/10 px-3 py-2
-              text-xs font-medium text-violet-300"
+              text-xs font-bold text-indigo-700"
             >
               {quiz.difficulty}
             </span>
 
             {/* Questions */}
             <span
-              className="rounded-lg border border-white/10
-              bg-white/[0.03] px-3 py-2
-              text-xs text-slate-300"
+              className="rounded-lg border border-slate-200
+              bg-white px-3 py-2
+              text-xs text-slate-600"
             >
               {quiz.questions?.length || 10} Questions
             </span>
 
             {/* Timer */}
             <span
-              className="rounded-lg border border-white/10
-              bg-white/[0.03] px-3 py-2
-              text-xs text-slate-300"
+              className="rounded-lg border border-slate-200
+              bg-white px-3 py-2
+              text-xs text-slate-600"
             >
               {quiz.questionTimer}s / question
             </span>
@@ -189,15 +193,17 @@ function QuizReady({ quiz }) {
         <button
           type="button"
           onClick={startQuiz}
+          disabled={starting}
           className="group relative mt-8 w-full max-w-lg
           overflow-hidden rounded-2xl
-          bg-violet-600 px-6 py-4
-          text-sm font-semibold text-white
-          shadow-xl shadow-violet-500/20
+          bg-indigo-600 px-6 py-4
+          text-sm font-bold text-white
+          shadow-xl shadow-indigo-500/20
           transition-all duration-300
           hover:-translate-y-0.5
-          hover:bg-violet-500
-          hover:shadow-violet-500/30"
+          hover:bg-indigo-700
+          hover:shadow-indigo-500/30
+          disabled:cursor-wait disabled:opacity-70"
         >
           {/* Shine */}
           <span
@@ -212,14 +218,14 @@ function QuizReady({ quiz }) {
             className="relative flex items-center
             justify-center gap-2"
           >
-            Start Quiz
+            {starting ? "Starting your quiz..." : "Start Quiz"}
 
-            <span
+            {!starting && <span
               className="transition-transform duration-300
               group-hover:translate-x-1"
             >
               →
-            </span>
+            </span>}
           </span>
         </button>
 

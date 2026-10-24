@@ -26,9 +26,9 @@ function QuizForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-3xl border border-white/10
-      bg-slate-900/60 p-6 shadow-2xl
-      shadow-violet-950/20 backdrop-blur-xl
+      className="rounded-[2rem] border border-slate-200
+      bg-white p-6 shadow-2xl
+      shadow-slate-900/10 backdrop-blur-xl
       transition-all duration-500
       hover:border-violet-500/20 sm:p-9"
     >
@@ -38,7 +38,7 @@ function QuizForm({
         <div className="mb-3 flex items-center justify-between">
           <label
             htmlFor="topic"
-            className="text-sm font-semibold text-slate-200"
+            className="text-sm font-bold text-slate-700"
           >
             What do you want to practice?
           </label>
@@ -52,7 +52,7 @@ function QuizForm({
           <div
             className="pointer-events-none absolute inset-y-0 left-4
             flex items-center text-slate-500 transition
-            group-focus-within:text-violet-400"
+            group-focus-within:text-indigo-600"
           >
             ✦
           </div>
@@ -65,15 +65,15 @@ function QuizForm({
             onChange={handleChange}
             placeholder="e.g. JavaScript Promises, DBMS, React Hooks..."
             required
-            className="w-full rounded-2xl border border-white/10
-            bg-slate-950/60 py-4 pl-11 pr-4
-            text-sm text-white outline-none
+            className="w-full rounded-2xl border border-slate-200
+            bg-white py-4 pl-11 pr-4
+            text-sm text-slate-900 outline-none
             transition-all duration-300
             placeholder:text-slate-600
-            hover:border-white/20
-            focus:border-violet-500/60
-            focus:bg-slate-950
-            focus:ring-4 focus:ring-violet-500/10"
+            hover:border-indigo-200
+            focus:border-indigo-500
+            focus:bg-white
+            focus:ring-4 focus:ring-indigo-500/10"
           />
         </div>
 
@@ -84,13 +84,13 @@ function QuizForm({
 
       {/* Divider */}
 
-      <div className="my-8 h-px bg-white/[0.07]" />
+      <div className="my-8 h-px bg-slate-100" />
 
       {/* ================= DIFFICULTY ================= */}
 
       <div>
         <div className="mb-4">
-          <p className="text-sm font-semibold text-slate-200">
+          <p className="text-sm font-bold text-slate-700">
             Choose your challenge level
           </p>
 
@@ -113,8 +113,8 @@ function QuizForm({
                   
                   ${
                     selected
-                      ? "border-violet-500/60 bg-violet-500/10 shadow-lg shadow-violet-500/5"
-                      : "border-white/10 bg-white/[0.02] hover:-translate-y-0.5 hover:border-white/20 hover:bg-white/[0.04]"
+                      ? "border-indigo-300 bg-indigo-50 shadow-lg shadow-indigo-500/5"
+                      : "border-slate-200 bg-white hover:-translate-y-0.5 hover:border-indigo-200 hover:bg-indigo-50/40"
                   }
                 `}
               >
@@ -152,8 +152,8 @@ function QuizForm({
                     <p
                       className={`text-sm font-semibold ${
                         selected
-                          ? "text-violet-300"
-                          : "text-slate-200"
+                          ? "text-indigo-700"
+                          : "text-slate-700"
                       }`}
                     >
                       {difficulty.title}
@@ -259,8 +259,8 @@ function QuizForm({
       {/* ================= SUMMARY ================= */}
 
       <div
-        className="mt-8 rounded-2xl border border-white/[0.07]
-        bg-slate-950/40 p-4"
+        className="mt-8 rounded-2xl border border-slate-200
+        bg-slate-50 p-4"
       >
         <p
           className="mb-3 text-xs font-medium uppercase
@@ -271,9 +271,9 @@ function QuizForm({
 
         <div className="flex flex-wrap gap-2">
           <span
-            className="rounded-lg border border-white/10
-            bg-white/[0.03] px-3 py-1.5
-            text-xs text-slate-300"
+            className="rounded-lg border border-slate-200
+            bg-white px-3 py-1.5
+            text-xs text-slate-600"
           >
             {formData.topic || "Your topic"}
           </span>
@@ -281,7 +281,7 @@ function QuizForm({
           <span
             className="rounded-lg border border-violet-500/20
             bg-violet-500/10 px-3 py-1.5
-            text-xs font-medium text-violet-300"
+            text-xs font-bold text-indigo-700"
           >
             {formData.difficulty}
           </span>

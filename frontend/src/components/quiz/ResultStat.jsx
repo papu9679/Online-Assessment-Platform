@@ -2,9 +2,9 @@ import React from "react";
 
 function ResultStat({ value, label }) {
   return (
-    <div className="min-w-[90px] rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-center">
+    <div className="min-w-[90px] rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-sm">
 
-      <p className="text-2xl font-bold text-white">
+      <p className="text-2xl font-black text-slate-900">
         {value}
       </p>
 
