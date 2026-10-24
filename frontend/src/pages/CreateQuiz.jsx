@@ -99,7 +99,7 @@ function CreateQuiz() {
 
     <main
       className="relative min-h-[calc(100vh-73px)]
-      overflow-hidden bg-slate-950 px-5 py-12 text-white"
+      overflow-hidden bg-[#f8f7f3] px-5 py-12 text-slate-900"
     >
 
       {/* ================= BACKGROUND ================= */}
@@ -110,8 +110,8 @@ function CreateQuiz() {
           className="absolute inset-0 opacity-[0.035]"
           style={{
             backgroundImage: `
-              linear-gradient(to right, white 1px, transparent 1px),
-              linear-gradient(to bottom, white 1px, transparent 1px)
+              linear-gradient(to right, #cbd5e1 1px, transparent 1px),
+              linear-gradient(to bottom, #cbd5e1 1px, transparent 1px)
             `,
             backgroundSize: "70px 70px",
           }}
@@ -121,13 +121,13 @@ function CreateQuiz() {
           className="absolute left-1/2 top-10
           h-[450px] w-[450px]
           -translate-x-1/2 rounded-full
-          bg-violet-600/10 blur-[130px]"
+          bg-indigo-200/50 blur-[130px]"
         />
 
         <div
           className="absolute -bottom-20 -left-20
           h-80 w-80 rounded-full
-          bg-purple-600/5 blur-[120px]"
+          bg-orange-200/50 blur-[120px]"
         />
 
       </div>
@@ -159,7 +159,7 @@ function CreateQuiz() {
           <p
             className="mb-2 text-xs font-semibold
             uppercase tracking-[0.25em]
-            text-violet-400"
+            text-indigo-600"
           >
             AI Quiz Generator
           </p>
@@ -173,7 +173,7 @@ function CreateQuiz() {
 
             <span
               className="bg-gradient-to-r
-              from-violet-400 to-purple-300
+              from-indigo-600 to-orange-500
               bg-clip-text text-transparent"
             >
               {" "}challenge
@@ -184,7 +184,7 @@ function CreateQuiz() {
 
           <p
             className="mx-auto mt-4 max-w-xl
-            text-sm leading-6 text-slate-400
+            text-sm leading-6             text-slate-500
             sm:text-base"
           >
             Pick a topic, choose your difficulty,

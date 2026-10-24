@@ -99,11 +99,12 @@ function MyQuizzes() {
 
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+        <p className="text-sm font-black uppercase tracking-[0.18em] text-indigo-600">Your practice library</p>
+        <h1 className="mt-2 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
           My Quizzes
         </h1>
 
-        <p className="mt-2 text-sm text-slate-400 sm:text-base">
+        <p className="mt-2 text-sm text-slate-500 sm:text-base">
           View and manage all your generated quizzes.
         </p>
       </div>
@@ -125,8 +126,8 @@ function MyQuizzes() {
 
               ${
                 filter === item
-                  ? "bg-indigo-500 text-white"
-                  : "border border-white/10 bg-white/[0.03] text-slate-400 hover:bg-white/[0.06] hover:text-white"
+                  ? "bg-indigo-600 text-white shadow-lg shadow-indigo-600/20"
+                  : "border border-slate-200 bg-white text-slate-500 hover:border-indigo-200 hover:text-indigo-700"
               }
             `}
           >
@@ -155,7 +156,7 @@ function MyQuizzes() {
 
         </div>
       ) : (
-        <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-10 text-center">
+        <div className="rounded-[1.5rem] border border-slate-200 bg-white p-10 text-center shadow-sm">
 
           <p className="text-slate-400">
             No quizzes found.

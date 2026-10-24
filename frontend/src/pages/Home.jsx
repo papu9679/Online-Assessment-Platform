@@ -1,274 +1,224 @@
-import React, { useContext } from "react";
-import { Link } from "react-router";
-import AuthContext from "../context/AuthContext.js";
+import React, { useContext } from 'react';
+import { Link } from 'react-router';
+import AuthContext from '../context/AuthContext.js';
 
 function Home() {
-    const features = [
-        {
-            icon: "✦",
-            title: "AI Quiz Generator",
-            description:
-                "Turn any topic into an interactive quiz in seconds. Choose your topic, difficulty and preferences — AI handles the rest.",
-        },
-        {
-            icon: "◈",
-            title: "Dashboard Analytics",
-            description:
-                "Track your quiz history, scores and learning progress through a clean and insightful analytics dashboard.",
-        },
-        {
-            icon: "⚡",
-            title: "AI-Powered Learning",
-            description:
-                "Practice smarter with personalized AI-generated questions designed to make learning engaging and effective.",
-        },
-    ];
+	const { user } = useContext(AuthContext);
 
-    const { user } = useContext(AuthContext);
+	const features = [
+		[
+			'✦',
+			'Build in seconds',
+			'Turn any topic into a focused quiz with the right difficulty and question count.',
+			'bg-indigo-50 text-indigo-700',
+		],
+		[
+			'↗',
+			'See your momentum',
+			'Simple analytics show where you are improving and what deserves another look.',
+			'bg-orange-50 text-orange-700',
+		],
+		[
+			'◎',
+			'Practice with purpose',
+			'Each attempt becomes a small, measurable step toward your next learning goal.',
+			'bg-emerald-50 text-emerald-700',
+		],
+	];
 
-    return (
-        <main className="min-h-screen overflow-hidden bg-slate-950 text-white">
-            {/* ================= HERO ================= */}
-            <section className="relative flex min-h-[88vh] items-center justify-center px-6">
-                {/* Background Effects */}
-                <div className="pointer-events-none absolute inset-0 overflow-hidden">
-                    <div className="absolute left-[10%] top-[15%] h-72 w-72 animate-pulse rounded-full bg-violet-600/20 blur-[120px]" />
+	return (
+		<main className="overflow-hidden bg-[#f8f7f3] text-slate-900">
+			<section className="relative px-5 pb-20 pt-14 sm:pt-20 lg:px-8 lg:pb-28">
+				<div className="pointer-events-none absolute -left-28 top-10 h-80 w-80 rounded-full bg-indigo-200/60 blur-3xl" />
+				<div className="pointer-events-none absolute right-0 top-40 h-96 w-96 rounded-full bg-orange-200/60 blur-3xl" />
+				<div className="relative mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[1fr_.9fr] lg:gap-20">
+					<div>
+						<div className="inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-white/80 px-3 py-2 text-xs font-bold uppercase tracking-[0.16em] text-indigo-700 shadow-sm">
+							<span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
+							Your smarter practice loop
+						</div>
+						<h1 className="mt-7 max-w-3xl text-5xl font-black leading-[.98] tracking-[-.05em] text-slate-900 sm:text-7xl">
+							Learn in a way that feels{' '}
+							<span className="text-indigo-600">made for you.</span>
+						</h1>
+						<p className="mt-7 max-w-xl text-base leading-8 text-slate-600 sm:text-lg">
+							Assessly turns your curiosity into interactive practice. Create a
+							quiz, test your thinking, and watch your progress become visible.
+						</p>
+						<div className="mt-9 flex flex-col gap-3 sm:flex-row">
+							<Link
+								to={user ? '/create-quiz' : '/signup'}
+								className="group inline-flex items-center justify-center rounded-2xl bg-indigo-600 px-6 py-4 text-sm font-bold text-white shadow-xl shadow-indigo-600/20 transition hover:-translate-y-1 hover:bg-indigo-700"
+							>
+								{user ? 'Create my next quiz' : 'Start learning free'}
+								<span className="ml-3 transition group-hover:translate-x-1">
+									→
+								</span>
+							</Link>
+							<Link
+								to={user ? '/dashboard' : '/login'}
+								className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white/80 px-6 py-4 text-sm font-bold text-slate-700 transition hover:-translate-y-1 hover:border-indigo-200 hover:text-indigo-700"
+							>
+								{user ? 'Open dashboard' : 'I already have an account'}
+							</Link>
+						</div>
+						<div className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3 text-sm font-semibold text-slate-500">
+							<span>
+								<strong className="text-slate-900">∞</strong> topics
+							</span>
+							<span>
+								<strong className="text-slate-900">3</strong> simple steps
+							</span>
+							<span>
+								<strong className="text-slate-900">24/7</strong> practice
+							</span>
+						</div>
+					</div>
 
-                    <div className="absolute bottom-[10%] right-[10%] h-80 w-80 animate-pulse rounded-full bg-indigo-600/20 blur-[130px]" />
+					<div className="relative mx-auto w-full max-w-md lg:mr-0">
+						<div className="absolute -right-5 -top-7 z-20 rounded-2xl border border-white bg-white px-4 py-3 shadow-xl shadow-slate-900/10 animate-bounce [animation-duration:3s]">
+							<p className="text-[10px] font-black uppercase tracking-wider text-slate-400">
+								Today's focus
+							</p>
+							<p className="mt-1 text-sm font-bold text-slate-800">
+								Build a better habit ✨
+							</p>
+						</div>
+						<div className="rounded-[2rem] border border-white bg-white/75 p-4 shadow-2xl shadow-slate-900/10 backdrop-blur-xl sm:p-6">
+							<div className="flex items-center justify-between border-b border-slate-100 pb-5">
+								<div>
+									<p className="text-xs font-bold uppercase tracking-wider text-indigo-600">
+										Quick practice
+									</p>
+									<h2 className="mt-1 text-xl font-black">
+										How curious are you?
+									</h2>
+								</div>
+								<span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700">
+									Ready
+								</span>
+							</div>
+							<div className="mt-6 rounded-2xl bg-slate-900 p-5 text-white">
+								<p className="text-xs font-bold text-indigo-300">
+									QUESTION 01 / 05
+								</p>
+								<p className="mt-5 text-lg font-bold leading-7">
+									What helps an idea become a habit?
+								</p>
+								<div className="mt-5 space-y-2">
+									{[
+										'A perfect plan',
+										'A small repeatable step',
+										'More notifications',
+									].map((answer, index) => (
+										<div
+											key={answer}
+											className={`flex items-center gap-3 rounded-xl border px-3 py-3 text-sm ${index === 1 ? 'border-indigo-400 bg-indigo-500/20 text-white' : 'border-white/10 text-slate-300'}`}
+										>
+											<span
+												className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold ${index === 1 ? 'bg-indigo-500' : 'bg-white/10'}`}
+											>
+												{String.fromCharCode(65 + index)}
+											</span>
+											{answer}
+											{index === 1 && (
+												<span className="ml-auto text-emerald-300">✓</span>
+											)}
+										</div>
+									))}
+								</div>
+							</div>
+							<div className="mt-5 flex items-center justify-between text-xs font-semibold text-slate-500">
+								<span>Progress</span>
+								<span className="text-indigo-600">20%</span>
+							</div>
+							<div className="mt-2 h-2 overflow-hidden rounded-full bg-slate-100">
+								<div className="h-full w-1/5 rounded-full bg-indigo-600" />
+							</div>
+						</div>
+						<div className="absolute -bottom-6 -left-7 rounded-2xl border border-white bg-white px-4 py-3 shadow-xl shadow-slate-900/10">
+							<p className="text-xs text-slate-400">Learning streak</p>
+							<p className="mt-1 text-lg font-black text-orange-600">
+								7 days 🔥
+							</p>
+						</div>
+					</div>
+				</div>
+			</section>
 
-                    <div className="absolute left-1/2 top-1/2 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-purple-500/5 blur-[150px]" />
+			<section className="border-y border-slate-200/80 bg-white/45 px-5 py-20 lg:px-8">
+				<div className="mx-auto max-w-7xl">
+					<div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+						<div>
+							<p className="text-sm font-black uppercase tracking-[0.18em] text-orange-600">
+								Why Assessly
+							</p>
+							<h2 className="mt-3 max-w-xl text-3xl font-black tracking-tight sm:text-4xl">
+								Less friction. More moments of “I get it.”
+							</h2>
+						</div>
+						<p className="max-w-sm text-sm leading-6 text-slate-500">
+							Everything you need to move from “I should study” to “I just
+							learned something.”
+						</p>
+					</div>
+					<div className="mt-12 grid gap-5 md:grid-cols-3">
+						{features.map(([icon, title, description, color], index) => (
+							<article
+								key={title}
+								className="group rounded-[1.5rem] border border-slate-200/80 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-slate-900/10"
+							>
+								<div
+									className={`flex h-12 w-12 items-center justify-center rounded-2xl text-xl font-black ${color}`}
+								>
+									{icon}
+								</div>
+								<p className="mt-6 text-xs font-black uppercase tracking-wider text-slate-400">
+									0{index + 1}
+								</p>
+								<h3 className="mt-2 text-xl font-black">{title}</h3>
+								<p className="mt-3 text-sm leading-6 text-slate-500">
+									{description}
+								</p>
+								<div className="mt-6 h-1 w-10 rounded-full bg-slate-200 transition-all group-hover:w-20 group-hover:bg-indigo-500" />
+							</article>
+						))}
+					</div>
+				</div>
+			</section>
 
-                    {/* Grid */}
-                    <div
-                        className="absolute inset-0 opacity-[0.03]"
-                        style={{
-                            backgroundImage:
-                                "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
-                            backgroundSize: "50px 50px",
-                        }}
-                    />
-                </div>
+			<section className="px-5 py-20 lg:px-8">
+				<div className="mx-auto grid max-w-7xl items-center gap-10 rounded-[2rem] bg-slate-900 px-7 py-10 text-white shadow-2xl shadow-slate-900/15 sm:px-12 lg:grid-cols-[1fr_auto]">
+					<div>
+						<p className="text-sm font-bold text-orange-300">
+							A simple loop that works
+						</p>
+						<h2 className="mt-3 text-3xl font-black tracking-tight sm:text-4xl">
+							Choose. Challenge. Grow.
+						</h2>
+						<p className="mt-4 max-w-xl text-sm leading-6 text-slate-300">
+							Start with one topic today. Your future self will thank you for
+							making progress feel this easy.
+						</p>
+					</div>
+					<Link
+						to={user ? '/create-quiz' : '/signup'}
+						className="inline-flex items-center justify-center rounded-2xl bg-white px-6 py-4 text-sm font-black text-slate-900 transition hover:-translate-y-1 hover:bg-indigo-50"
+					>
+						{user ? 'Create a quiz' : 'Join Assessly'}{' '}
+						<span className="ml-3">↗</span>
+					</Link>
+				</div>
+			</section>
 
-                {/* Hero Content */}
-                <div className="relative z-10 mx-auto max-w-5xl text-center">
-                    {/* Badge */}
-                    <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-violet-500/20 bg-violet-500/10 px-4 py-2 text-sm text-violet-300 backdrop-blur-md">
-                        <span className="h-2 w-2 animate-pulse rounded-full bg-violet-400" />
-                        AI Powered Quiz Platform
-                    </div>
-
-                    {/* Heading */}
-                    <h1 className="text-5xl font-black leading-tight tracking-tight sm:text-6xl lg:text-7xl">
-                        Learn Smarter.
-                        <br />
-                        <span className="bg-gradient-to-r from-violet-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent">
-                            Quiz with AI.
-                        </span>
-                    </h1>
-
-                    {/* Description */}
-                    <p className="mx-auto mt-7 max-w-2xl text-base leading-8 text-slate-400 sm:text-lg">
-                        Generate intelligent quizzes on any topic, test your
-                        knowledge and track your performance — all powered by
-                        AI.
-                    </p>
-
-                    {/* Buttons */}
-                    {user && (
-                        <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-                            <Link
-                                to="/create-quiz"
-                                className="group rounded-xl bg-violet-600 px-7 py-3.5 font-semibold text-white shadow-xl shadow-violet-500/20 transition-all duration-300 hover:-translate-y-1 hover:bg-violet-500 hover:shadow-violet-500/40"
-                            >
-                                Generate a Quiz
-                                <span className="ml-2 inline-block transition-transform duration-300 group-hover:translate-x-1">
-                                    →
-                                </span>
-                            </Link>
-
-                            <Link
-                                to="/dashboard"
-                                className="rounded-xl border border-white/10 bg-white/5 px-7 py-3.5 font-semibold text-slate-300 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-violet-500/40 hover:bg-white/10 hover:text-white"
-                            >
-                                View Dashboard
-                            </Link>
-                        </div>
-                    )}
-
-                    {/* Mini stats */}
-                    <div className="mx-auto mt-16 grid max-w-xl grid-cols-3 divide-x divide-white/10">
-                        <div>
-                            <p className="text-2xl font-bold text-white">AI</p>
-                            <p className="mt-1 text-xs text-slate-500">
-                                Generated
-                            </p>
-                        </div>
-
-                        <div>
-                            <p className="text-2xl font-bold text-white">∞</p>
-                            <p className="mt-1 text-xs text-slate-500">
-                                Topics
-                            </p>
-                        </div>
-
-                        <div>
-                            <p className="text-2xl font-bold text-white">
-                                24/7
-                            </p>
-                            <p className="mt-1 text-xs text-slate-500">
-                                Learning
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* ================= FEATURES ================= */}
-            <section className="relative px-6 py-24">
-                <div className="mx-auto max-w-7xl">
-                    {/* Heading */}
-                    <div className="mb-14 text-center">
-                        <p className="mb-3 text-sm font-semibold uppercase tracking-[0.25em] text-violet-400">
-                            Everything you need
-                        </p>
-
-                        <h2 className="text-3xl font-bold sm:text-4xl">
-                            A smarter way to
-                            <span className="text-violet-400"> learn</span>
-                        </h2>
-
-                        <p className="mx-auto mt-4 max-w-xl text-slate-400">
-                            Create quizzes, test yourself and understand your
-                            progress from one simple platform.
-                        </p>
-                    </div>
-
-                    {/* Cards */}
-                    <div className="grid gap-6 md:grid-cols-3">
-                        {features.map((feature, index) => (
-                            <div
-                                key={feature.title}
-                                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-7 backdrop-blur-md transition-all duration-500 hover:-translate-y-2 hover:border-violet-500/40 hover:bg-white/[0.06] hover:shadow-2xl hover:shadow-violet-500/10"
-                            >
-                                {/* Glow */}
-                                <div className="absolute -right-16 -top-16 h-32 w-32 rounded-full bg-violet-500/10 blur-3xl transition-all duration-500 group-hover:bg-violet-500/30" />
-
-                                {/* Number */}
-                                <span className="absolute right-5 top-5 text-xs font-semibold text-slate-700">
-                                    0{index + 1}
-                                </span>
-
-                                {/* Icon */}
-                                <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl border border-violet-500/20 bg-violet-500/10 text-xl text-violet-400 transition-all duration-300 group-hover:scale-110 group-hover:bg-violet-500/20">
-                                    {feature.icon}
-                                </div>
-
-                                <h3 className="mb-3 text-xl font-semibold">
-                                    {feature.title}
-                                </h3>
-
-                                <p className="text-sm leading-7 text-slate-400">
-                                    {feature.description}
-                                </p>
-
-                                <div className="mt-6 flex items-center gap-2 text-sm font-medium text-violet-400 opacity-70 transition-all duration-300 group-hover:gap-3 group-hover:opacity-100">
-                                    Explore
-                                    <span>→</span>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* ================= HOW IT WORKS ================= */}
-            <section className="border-y border-white/5 bg-white/[0.015] px-6 py-24">
-                <div className="mx-auto max-w-6xl">
-                    <div className="mb-14 text-center">
-                        <p className="text-sm font-semibold uppercase tracking-[0.25em] text-violet-400">
-                            Simple & Fast
-                        </p>
-
-                        <h2 className="mt-3 text-3xl font-bold sm:text-4xl">
-                            From topic to quiz in seconds
-                        </h2>
-                    </div>
-
-                    <div className="grid gap-10 md:grid-cols-3">
-                        {[
-                            [
-                                "01",
-                                "Choose a Topic",
-                                "Enter what you want to practice and select your quiz preferences.",
-                            ],
-                            [
-                                "02",
-                                "AI Generates Quiz",
-                                "Our AI creates relevant questions based on your selected topic.",
-                            ],
-                            [
-                                "03",
-                                "Learn & Analyze",
-                                "Complete your quiz and track your performance from the dashboard.",
-                            ],
-                        ].map(([number, title, description]) => (
-                            <div key={number} className="text-center">
-                                <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full border border-violet-500/30 bg-violet-500/10 font-bold text-violet-400">
-                                    {number}
-                                </div>
-
-                                <h3 className="text-lg font-semibold">
-                                    {title}
-                                </h3>
-
-                                <p className="mx-auto mt-3 max-w-xs text-sm leading-6 text-slate-400">
-                                    {description}
-                                </p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* ================= CTA ================= */}
-            <section className="px-6 py-24">
-                <div className="relative mx-auto max-w-5xl overflow-hidden rounded-3xl border border-violet-500/20 bg-gradient-to-br from-violet-600/20 via-purple-600/10 to-transparent px-8 py-16 text-center">
-                    <div className="absolute left-1/2 top-0 h-48 w-96 -translate-x-1/2 bg-violet-500/20 blur-[100px]" />
-
-                    <div className="relative">
-                        <h2 className="text-3xl font-bold sm:text-4xl">
-                            Ready to test your knowledge?
-                        </h2>
-
-                        <p className="mx-auto mt-4 max-w-xl text-slate-400">
-                            Pick a topic and let AI build your next learning
-                            challenge.
-                        </p>
-
-                        <Link
-                            to="/create-quiz"
-                            className="mt-8 inline-flex items-center rounded-xl bg-violet-600 px-7 py-3.5 font-semibold shadow-lg shadow-violet-500/20 transition-all duration-300 hover:-translate-y-1 hover:bg-violet-500 hover:shadow-violet-500/40"
-                        >
-                            Create Your Quiz
-                            <span className="ml-2">→</span>
-                        </Link>
-                    </div>
-                </div>
-            </section>
-
-            {/* ================= FOOTER ================= */}
-            <footer className="border-t border-white/5 px-6 py-8">
-                <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 text-sm text-slate-500 sm:flex-row">
-                    <p>
-                        © {new Date().getFullYear()} QuizAI. Learn smarter with
-                        AI.
-                    </p>
-
-                    <p>Built for smarter learning.</p>
-                </div>
-            </footer>
-        </main>
-    );
+			<footer className="border-t border-slate-200/80 px-5 py-8 lg:px-8">
+				<div className="mx-auto flex max-w-7xl flex-col justify-between gap-3 text-sm text-slate-500 sm:flex-row">
+					<p>© {new Date().getFullYear()} Assessly</p>
+					<p>Made for curious minds.</p>
+				</div>
+			</footer>
+		</main>
+	);
 }
 
 export default Home;

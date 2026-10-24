@@ -11,58 +11,24 @@ function Signup() {
     const [success, setSuccess] = useState("");
     const [loading, setLoading] = useState(false);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        console.log({
-            name,
-            email,
-            password,
-        });
-
+    const handleSubmit = async (event) => {
+        event.preventDefault();
         setError("");
         setSuccess("");
-
-        // Signup API call here
+        setLoading(true);
         try {
-            const api = `${import.meta.env.VITE_BACKEND_BASE_URL}/auth/signup`;
-            const options = {
-                // 1. Specify the HTTP method
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_BASE_URL}/auth/signup`, {
                 method: "POST",
-
-                // 2. Define content types and authentication
-                headers: {
-                    "Content-Type": "application/json",
-                },
-
-                // 3. for cookies
+                headers: { "Content-Type": "application/json" },
                 credentials: "include",
-
-                // 4. Serialize your JavaScript object into a JSON string
-                body: JSON.stringify({
-                    name,
-                    email,
-                    password,
-                }),
-            };
-
-            // console.log(api);
-            setLoading(true);
-            const res = await fetch(api, options);
-            const data = await res.json();
-
-            if (!res.ok) {
-                throw new Error(data.message);
-            }
-
-            if (data) {
-                setSuccess(data.message);
-                console.log(data.message);
-                setName("");
-                setEmail("");
-                setPassword("");
-                console.log("Done");
-            }
+                body: JSON.stringify({ name, email, password }),
+            });
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.message || "Unable to create account");
+            setSuccess(data.message || "Account created. You can sign in now.");
+            setName("");
+            setEmail("");
+            setPassword("");
         } catch (err) {
             setError(err.message);
         } finally {
@@ -71,252 +37,27 @@ function Signup() {
     };
 
     return (
-        <main className="relative flex min-h-[calc(100vh-73px)] items-center justify-center overflow-hidden bg-slate-950 px-6 py-12 text-white">
-            {/* ================= BACKGROUND ================= */}
-            <div className="pointer-events-none absolute inset-0 overflow-hidden">
-                {/* Animated Glows */}
-                <div className="absolute -left-32 top-20 h-80 w-80 animate-pulse rounded-full bg-violet-600/20 blur-[120px]" />
-
-                <div className="absolute -right-32 bottom-10 h-96 w-96 animate-pulse rounded-full bg-indigo-600/20 blur-[130px]" />
-
-                <div className="absolute left-1/2 top-1/2 h-80 w-80 -translate-x-1/2 -translate-y-1/2 rounded-full bg-purple-500/5 blur-[130px]" />
-
-                {/* Grid */}
-                <div
-                    className="absolute inset-0 opacity-[0.03]"
-                    style={{
-                        backgroundImage:
-                            "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
-                        backgroundSize: "50px 50px",
-                    }}
-                />
-            </div>
-
-            {/* ================= SIGNUP CONTAINER ================= */}
-            <div className="relative z-10 w-full max-w-md">
-                {/* Top Badge */}
-                <div className="mb-6 text-center">
-                    <div className="inline-flex items-center gap-2 rounded-full border border-violet-500/20 bg-violet-500/10 px-4 py-2 text-xs font-medium text-violet-300 backdrop-blur-xl">
-                        <span className="h-2 w-2 animate-pulse rounded-full bg-violet-400" />
-                        Start Learning with AI
-                    </div>
-                </div>
-
-                {/* ================= CARD ================= */}
-                <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04] p-8 shadow-2xl shadow-black/30 backdrop-blur-xl transition-all duration-500 hover:border-violet-500/20 sm:p-10">
-                    {/* Card Glow */}
-                    <div className="pointer-events-none absolute -right-20 -top-20 h-44 w-44 rounded-full bg-violet-500/10 blur-3xl transition-all duration-500 group-hover:bg-violet-500/20" />
-
-                    {/* ================= HEADER ================= */}
-                    <div className="relative mb-8 text-center">
-                        <Link
-                            to="/"
-                            className="mb-5 inline-block text-2xl font-bold tracking-tight transition-transform duration-300 hover:scale-105"
-                        >
-                            Quiz<span className="text-violet-500">AI</span>
-                        </Link>
-
-                        <h1 className="text-3xl font-bold tracking-tight">
-                            Create your account
-                        </h1>
-
-                        <p className="mt-2 text-sm leading-6 text-slate-400">
-                            Join QuizAI and start your AI-powered learning
-                            journey.
-                        </p>
-                    </div>
-
-                    {/* ================= FORM ================= */}
-                    <form
-                        onSubmit={handleSubmit}
-                        className="relative space-y-5"
-                    >
-                        {/* ================= NAME ================= */}
-                        <div>
-                            <label
-                                htmlFor="name"
-                                className="mb-2 block text-sm font-medium text-slate-300"
-                            >
-                                Name
-                            </label>
-
-                            <div className="group/input relative">
-                                {/* User Icon */}
-                                <div className="pointer-events-none absolute inset-y-0 left-4 flex items-center">
-                                    <svg
-                                        className="h-5 w-5 text-slate-500 transition-colors duration-300 group-focus-within/input:text-violet-400"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={1.8}
-                                            d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2m7-10a4 4 0 100-8 4 4 0 000 8z"
-                                        />
-                                    </svg>
-                                </div>
-
-                                <input
-                                    id="name"
-                                    type="text"
-                                    placeholder="Enter your name"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                    required
-                                    className="w-full rounded-xl border border-white/10 bg-slate-900/70 py-3.5 pl-12 pr-4 text-sm text-white outline-none transition-all duration-300 placeholder:text-slate-600 hover:border-white/20 focus:border-violet-500/60 focus:bg-slate-900 focus:ring-4 focus:ring-violet-500/10"
-                                />
-                            </div>
-                        </div>
-
-                        {/* ================= EMAIL ================= */}
-                        <div>
-                            <label
-                                htmlFor="email"
-                                className="mb-2 block text-sm font-medium text-slate-300"
-                            >
-                                Email
-                            </label>
-
-                            <div className="group/input relative">
-                                {/* Email Icon */}
-                                <div className="pointer-events-none absolute inset-y-0 left-4 flex items-center">
-                                    <svg
-                                        className="h-5 w-5 text-slate-500 transition-colors duration-300 group-focus-within/input:text-violet-400"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={1.8}
-                                            d="M3 8l9 6 9-6M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                                        />
-                                    </svg>
-                                </div>
-
-                                <input
-                                    id="email"
-                                    type="email"
-                                    placeholder="you@example.com"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    required
-                                    className="w-full rounded-xl border border-white/10 bg-slate-900/70 py-3.5 pl-12 pr-4 text-sm text-white outline-none transition-all duration-300 placeholder:text-slate-600 hover:border-white/20 focus:border-violet-500/60 focus:bg-slate-900 focus:ring-4 focus:ring-violet-500/10"
-                                />
-                            </div>
-                        </div>
-
-                        {/* ================= PASSWORD ================= */}
-                        <div>
-                            <label
-                                htmlFor="password"
-                                className="mb-2 block text-sm font-medium text-slate-300"
-                            >
-                                Password
-                            </label>
-
-                            <div className="group/input relative">
-                                {/* Lock Icon */}
-                                <div className="pointer-events-none absolute inset-y-0 left-4 flex items-center">
-                                    <svg
-                                        className="h-5 w-5 text-slate-500 transition-colors duration-300 group-focus-within/input:text-violet-400"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={1.8}
-                                            d="M12 11c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm6 0V8a6 6 0 10-12 0v3m-1 0h14a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2z"
-                                        />
-                                    </svg>
-                                </div>
-
-                                <input
-                                    id="password"
-                                    type="password"
-                                    placeholder="Create a password"
-                                    value={password}
-                                    onChange={(e) =>
-                                        setPassword(e.target.value)
-                                    }
-                                    required
-                                    className="w-full rounded-xl border border-white/10 bg-slate-900/70 py-3.5 pl-12 pr-4 text-sm text-white outline-none transition-all duration-300 placeholder:text-slate-600 hover:border-white/20 focus:border-violet-500/60 focus:bg-slate-900 focus:ring-4 focus:ring-violet-500/10"
-                                />
-                            </div>
-                        </div>
-
-                        {error && <FormError error={error}></FormError>}
-
-                        {success && (
-                            <FormSuccess success={success}></FormSuccess>
-                        )}
-
-                        {/* ================= SIGNUP BUTTON ================= */}
-
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className={`
-    group/btn mt-2 w-full rounded-xl px-5 py-3.5
-    text-sm font-semibold text-white
-    transition-all duration-300
-    ${
-        loading
-            ? "cursor-not-allowed bg-violet-600/60"
-            : "bg-violet-600 shadow-lg shadow-violet-500/20 hover:-translate-y-0.5 hover:bg-violet-500 hover:shadow-xl hover:shadow-violet-500/30 active:translate-y-0"
-    }
-  `}
-                        >
-                            {loading ? (
-                                <span className="flex items-center justify-center gap-3">
-                                    <span className="h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
-                                    Creating Account...
-                                </span>
-                            ) : (
-                                <span className="flex items-center justify-center gap-2">
-                                    Create Account
-                                    <span className="transition-transform duration-300 group-hover/btn:translate-x-1">
-                                        →
-                                    </span>
-                                </span>
-                            )}
+        <main className="relative flex min-h-[calc(100vh-73px)] items-center justify-center overflow-hidden bg-[#f8f7f3] px-5 py-12 text-slate-900">
+            <div className="pointer-events-none absolute left-0 top-20 h-72 w-72 rounded-full bg-orange-200/50 blur-3xl" />
+            <div className="pointer-events-none absolute bottom-0 right-0 h-80 w-80 rounded-full bg-indigo-200/50 blur-3xl" />
+            <div className="relative z-10 w-full max-w-5xl overflow-hidden rounded-[2rem] border border-white/80 bg-white/70 shadow-2xl shadow-slate-900/10 backdrop-blur-xl md:grid md:grid-cols-[1.15fr_.85fr]">
+                <section className="p-7 sm:p-12">
+                    <div className="mb-8"><p className="text-sm font-bold text-orange-600">Your next chapter starts here</p><h1 className="mt-2 text-3xl font-black tracking-tight sm:text-4xl">Build a learning habit<br />that actually sticks.</h1></div>
+                    <form onSubmit={handleSubmit} className="space-y-5">
+                        <label className="block text-sm font-semibold text-slate-700">Your name<input id="name" type="text" placeholder="How should we call you?" value={name} onChange={(event) => setName(event.target.value)} required className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-sm outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10" /></label>
+                        <label className="block text-sm font-semibold text-slate-700">Email<input id="email" type="email" placeholder="you@example.com" value={email} onChange={(event) => setEmail(event.target.value)} required className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-sm outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10" /></label>
+                        <label className="block text-sm font-semibold text-slate-700">Password<input id="password" type="password" placeholder="At least 6 characters" value={password} onChange={(event) => setPassword(event.target.value)} required minLength={6} className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-sm outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10" /></label>
+                        {error && <FormError error={error} />}
+                        {success && <FormSuccess success={success} />}
+                        <button type="submit" disabled={loading} className="w-full rounded-2xl bg-slate-900 px-5 py-4 text-sm font-bold text-white shadow-xl shadow-slate-900/15 transition hover:-translate-y-0.5 hover:bg-slate-800 disabled:cursor-wait disabled:opacity-70">
+                            <span className="flex items-center justify-center gap-3">{loading ? <><span className="h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />Creating your space...</> : <>Create my account <span>→</span></>}</span>
                         </button>
                     </form>
-
-                    {/* ================= LOGIN LINK ================= */}
-                    <div className="relative mt-8">
-                        <div className="mb-6 flex items-center gap-4">
-                            <div className="h-px flex-1 bg-white/10" />
-
-                            <span className="text-xs text-slate-600">
-                                Already a member?
-                            </span>
-
-                            <div className="h-px flex-1 bg-white/10" />
-                        </div>
-
-                        <p className="text-center text-sm text-slate-400">
-                            Already have an account?{" "}
-                            <Link
-                                to="/login"
-                                className="font-semibold text-violet-400 transition-colors duration-300 hover:text-violet-300"
-                            >
-                                Login
-                            </Link>
-                        </p>
-                    </div>
-                </div>
-
-                {/* Bottom Text */}
-                <p className="mt-6 text-center text-xs text-slate-600">
-                    Create. Practice. Analyze. Improve.
-                </p>
+                    <p className="mt-8 text-center text-sm text-slate-500">Already a member? <Link to="/login" className="font-bold text-indigo-600 hover:text-indigo-800">Sign in</Link></p>
+                </section>
+                <aside className="hidden flex-col justify-between bg-orange-50 p-10 md:flex"><div><span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-bold text-orange-700">A BETTER WAY TO PRACTICE</span><div className="mt-16 text-8xl">🪴</div><h2 className="mt-8 text-3xl font-black text-slate-900">Small sessions.<br /><span className="text-orange-600">Real momentum.</span></h2><p className="mt-4 text-sm leading-6 text-slate-600">Generate, attempt, reflect, repeat. Your dashboard keeps the loop moving.</p></div><div className="flex gap-2 text-2xl"><span className="animate-bounce">✦</span><span className="animate-bounce [animation-delay:150ms]">✧</span><span className="animate-bounce [animation-delay:300ms]">✦</span></div></aside>
             </div>
+            {loading && <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/20 backdrop-blur-sm"><div className="rounded-3xl bg-white px-7 py-6 text-center shadow-2xl"><div className="mx-auto h-10 w-10 animate-spin rounded-full border-4 border-orange-100 border-t-orange-600" /><p className="mt-4 text-sm font-bold text-slate-700">Creating your learning space...</p><p className="mt-1 text-xs text-slate-400">We are getting everything ready for you.</p></div></div>}
         </main>
     );
 }

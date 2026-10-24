@@ -116,7 +116,7 @@ function QuizResult() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-950">
+      <div className="flex min-h-screen items-center justify-center bg-[#f8f7f3]">
         <p className="text-slate-400">
           Loading your result...
         </p>
@@ -131,7 +131,7 @@ function QuizResult() {
 
   if (error) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-950">
+      <div className="flex min-h-screen items-center justify-center bg-[#f8f7f3]">
         <p className="text-red-400">
           {error}
         </p>
@@ -170,7 +170,7 @@ function QuizResult() {
   // =====================================================
 
   return (
-    <main className="min-h-screen bg-slate-950 px-5 py-12 text-white">
+    <main className="min-h-screen bg-[#f8f7f3] px-5 py-12 text-slate-900">
 
       <div className="mx-auto max-w-4xl">
 

@@ -462,7 +462,7 @@ function QuizAttempt() {
 
     if (loading) {
         return (
-            <div className="flex min-h-screen items-center justify-center bg-slate-950">
+            <div className="flex min-h-screen items-center justify-center bg-[#f8f7f3]">
                 <p className="text-slate-400">Loading quiz...</p>
             </div>
         );
@@ -474,7 +474,7 @@ function QuizAttempt() {
 
     if (error && (!quiz || !attempt)) {
         return (
-            <div className="flex min-h-screen items-center justify-center bg-slate-950">
+            <div className="flex min-h-screen items-center justify-center bg-[#f8f7f3]">
                 <p className="text-red-400">{error}</p>
             </div>
         );
@@ -505,7 +505,7 @@ function QuizAttempt() {
     // =====================================================
 
     return (
-        <main className="min-h-screen bg-slate-950 px-5 py-10 text-white">
+        <main className="min-h-screen bg-[#f8f7f3] px-5 py-10 text-slate-900">
             <div className="mx-auto max-w-3xl">
                 {/* ============================================= */}
                 {/* HEADER + TIMER */}

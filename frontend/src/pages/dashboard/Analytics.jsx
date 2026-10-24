@@ -67,11 +67,12 @@ function Analytics() {
 
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+        <p className="text-sm font-black uppercase tracking-[0.18em] text-orange-600">Your progress, decoded</p>
+        <h1 className="mt-2 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
           Analytics
         </h1>
 
-        <p className="mt-2 text-sm text-slate-400 sm:text-base">
+        <p className="mt-2 text-sm text-slate-500 sm:text-base">
           Understand your quiz activity and performance.
         </p>
       </div>

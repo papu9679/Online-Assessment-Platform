@@ -103,7 +103,7 @@ function QuizView() {
   // --------------------------------------------------
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 p-8 text-slate-400">
+      <div className="min-h-screen bg-[#f8f7f3] p-8 text-slate-500">
         Loading quiz...
       </div>
     );
@@ -114,7 +114,7 @@ function QuizView() {
   // --------------------------------------------------
   if (error) {
     return (
-      <div className="min-h-screen bg-slate-950 p-8">
+      <div className="min-h-screen bg-[#f8f7f3] p-8">
         <div className="rounded-2xl border border-red-500/20 bg-red-500/5 p-5 text-red-300">
           {error}
         </div>
@@ -123,7 +123,7 @@ function QuizView() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 px-4 py-8 text-white">
+    <div className="min-h-screen bg-[#f8f7f3] px-4 py-8 text-slate-900">
 
       <div className="mx-auto max-w-5xl space-y-8">
 

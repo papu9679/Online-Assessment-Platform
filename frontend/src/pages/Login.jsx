@@ -1,285 +1,167 @@
-import React, { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router";
-import FormError from "../components/FormError.jsx";
-import FormSuccess from "../components/FormSuccess.jsx";
-import AuthContext from "../context/AuthContext.js";
+import React, { useContext, useState } from 'react';
+import { Link, useNavigate } from 'react-router';
+import FormError from '../components/FormError.jsx';
+import FormSuccess from '../components/FormSuccess.jsx';
+import AuthContext from '../context/AuthContext.js';
 
 function Login() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [error, setError] = useState('');
+	const [success, setSuccess] = useState('');
+	const [loading, setLoading] = useState(false);
+	const navigate = useNavigate();
+	const { getProfile } = useContext(AuthContext);
 
-    const [error, setError] = useState("");
-    const [success, setSuccess] = useState("");
-    const [loading, setLoading] = useState(false);
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+		setError('');
+		setSuccess('');
+		setLoading(true);
 
-    const navigate = useNavigate();
-    const { getProfile } = useContext(AuthContext);
+		try {
+			const response = await fetch(
+				`${import.meta.env.VITE_BACKEND_BASE_URL}/auth/login`,
+				{
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					credentials: 'include',
+					body: JSON.stringify({ email, password }),
+				},
+			);
+			const data = await response.json();
+			if (!response.ok) throw new Error(data.message || 'Unable to sign in');
+			setSuccess(data.message || 'Signed in successfully');
+			await getProfile();
+			navigate('/');
+		} catch (err) {
+			setError(err.message);
+		} finally {
+			setLoading(false);
+		}
+	};
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+	return (
+		<main className="relative flex min-h-[calc(100vh-73px)] items-center justify-center overflow-hidden bg-[#f8f7f3] px-5 py-12 text-slate-900">
+			<div className="pointer-events-none absolute -left-24 top-10 h-72 w-72 rounded-full bg-indigo-200/50 blur-3xl" />
+			<div className="pointer-events-none absolute -right-24 bottom-0 h-80 w-80 rounded-full bg-orange-200/50 blur-3xl" />
+			<div className="relative z-10 grid w-full max-w-5xl overflow-hidden rounded-[2rem] border border-white/80 bg-white/70 shadow-2xl shadow-slate-900/10 backdrop-blur-xl md:grid-cols-[.85fr_1.15fr]">
+				<aside className="hidden flex-col justify-between bg-slate-900 p-10 text-white md:flex">
+					<div>
+						<span className="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-semibold text-indigo-200">
+							Assessly / MEMBER SPACE
+						</span>
+						<h2 className="mt-20 text-4xl font-black leading-tight">
+							Make progress
+							<br />
+							<span className="text-indigo-300">feel visible.</span>
+						</h2>
+						<p className="mt-5 max-w-xs text-sm leading-6 text-slate-300">
+							Turn curiosity into a practice loop that remembers where you are
+							going.
+						</p>
+					</div>
+					<div className="flex items-center gap-3 text-sm text-slate-300">
+						<span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />{' '}
+						Your learning space is ready
+					</div>
+				</aside>
 
-        console.log({
-            email,
-            password,
-        });
-        setError("");
-        setSuccess("");
-        setLoading(false);
-
-        // Login API call
-        try {
-            setLoading(true);
-            const api = `${import.meta.env.VITE_BACKEND_BASE_URL}/auth/login`;
-            console.log(api);
-            const options = {
-                // 1. Specify the HTTP method
-                method: "POST",
-
-                // 2. Define content types and authentication
-                headers: {
-                    "Content-Type": "application/json",
-                },
-
-                // 3. for cookies
-                credentials: "include",
-
-                // 4. Serialize your JavaScript object into a JSON string
-                body: JSON.stringify({
-                    email,
-                    password,
-                }),
-            };
-
-            const res = await fetch(api, options);
-            const data = await res.json();
-
-            if (!res.ok) {
-                throw new Error(data.message);
-            }
-
-            if (data) {
-                setSuccess(data.message);
-                await getProfile();
-                navigate("/");
-            }
-        } catch (err) {
-            setError(err.message);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    return (
-        <main className="relative flex min-h-[calc(100vh-73px)] items-center justify-center overflow-hidden bg-slate-950 px-6 py-12 text-white">
-            {/* ================= BACKGROUND ================= */}
-            <div className="pointer-events-none absolute inset-0">
-                {/* Animated Glows */}
-                <div className="absolute -left-32 top-20 h-80 w-80 animate-pulse rounded-full bg-violet-600/20 blur-[120px]" />
-
-                <div className="absolute -right-32 bottom-10 h-96 w-96 animate-pulse rounded-full bg-indigo-600/20 blur-[130px]" />
-
-                <div className="absolute left-1/2 top-1/2 h-80 w-80 -translate-x-1/2 -translate-y-1/2 rounded-full bg-purple-500/5 blur-[130px]" />
-
-                {/* Background Grid */}
-                <div
-                    className="absolute inset-0 opacity-[0.03]"
-                    style={{
-                        backgroundImage:
-                            "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
-                        backgroundSize: "50px 50px",
-                    }}
-                />
-            </div>
-
-            {/* ================= LOGIN ================= */}
-            <div className="relative z-10 w-full max-w-md">
-                {/* Badge */}
-                <div className="mb-6 text-center">
-                    <div className="inline-flex items-center gap-2 rounded-full border border-violet-500/20 bg-violet-500/10 px-4 py-2 text-xs font-medium text-violet-300 backdrop-blur-xl">
-                        <span className="h-2 w-2 animate-pulse rounded-full bg-violet-400" />
-                        AI Powered Learning
-                    </div>
-                </div>
-
-                {/* ================= LOGIN CARD ================= */}
-                <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04] p-8 shadow-2xl shadow-black/30 backdrop-blur-xl transition-all duration-500 hover:border-violet-500/20 sm:p-10">
-                    {/* Card Glow */}
-                    <div className="pointer-events-none absolute -right-20 -top-20 h-44 w-44 rounded-full bg-violet-500/10 blur-3xl transition-all duration-500 group-hover:bg-violet-500/20" />
-
-                    {/* ================= HEADER ================= */}
-                    <div className="relative mb-8 text-center">
-                        <Link
-                            to="/"
-                            className="mb-5 inline-block text-2xl font-bold tracking-tight transition-transform duration-300 hover:scale-105"
-                        >
-                            Quiz<span className="text-violet-500">AI</span>
-                        </Link>
-
-                        <h1 className="text-3xl font-bold tracking-tight">
-                            Welcome back
-                        </h1>
-
-                        <p className="mt-2 text-sm leading-6 text-slate-400">
-                            Sign in to continue your learning journey.
-                        </p>
-                    </div>
-
-                    {/* ================= FORM ================= */}
-                    <form
-                        onSubmit={handleSubmit}
-                        className="relative space-y-5"
-                    >
-                        {/* EMAIL */}
-                        <div>
-                            <label
-                                htmlFor="email"
-                                className="mb-2 block text-sm font-medium text-slate-300"
-                            >
-                                Email
-                            </label>
-
-                            <div className="group/input relative">
-                                {/* Email Icon */}
-                                <div className="pointer-events-none absolute inset-y-0 left-4 flex items-center">
-                                    <svg
-                                        className="h-5 w-5 text-slate-500 transition-colors duration-300 group-focus-within/input:text-violet-400"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={1.8}
-                                            d="M3 8l9 6 9-6M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                                        />
-                                    </svg>
-                                </div>
-
-                                <input
-                                    id="email"
-                                    type="email"
-                                    placeholder="you@example.com"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    required
-                                    className="w-full rounded-xl border border-white/10 bg-slate-900/70 py-3.5 pl-12 pr-4 text-sm text-white outline-none transition-all duration-300 placeholder:text-slate-600 hover:border-white/20 focus:border-violet-500/60 focus:bg-slate-900 focus:ring-4 focus:ring-violet-500/10"
-                                />
-                            </div>
-                        </div>
-
-                        {/* PASSWORD */}
-                        <div>
-                            <div className="mb-2 flex items-center justify-between">
-                                <label
-                                    htmlFor="password"
-                                    className="text-sm font-medium text-slate-300"
-                                >
-                                    Password
-                                </label>
-
-                                <Link
-                                    to="/forgot-password"
-                                    className="text-xs font-medium text-violet-400 transition-colors duration-300 hover:text-violet-300"
-                                >
-                                    Forgot password?
-                                </Link>
-                            </div>
-
-                            <div className="group/input relative">
-                                {/* Lock Icon */}
-                                <div className="pointer-events-none absolute inset-y-0 left-4 flex items-center">
-                                    <svg
-                                        className="h-5 w-5 text-slate-500 transition-colors duration-300 group-focus-within/input:text-violet-400"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={1.8}
-                                            d="M12 11c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm6 0V8a6 6 0 10-12 0v3m-1 0h14a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2z"
-                                        />
-                                    </svg>
-                                </div>
-
-                                <input
-                                    id="password"
-                                    type="password"
-                                    placeholder="Enter your password"
-                                    value={password}
-                                    onChange={(e) =>
-                                        setPassword(e.target.value)
-                                    }
-                                    required
-                                    className="w-full rounded-xl border border-white/10 bg-slate-900/70 py-3.5 pl-12 pr-4 text-sm text-white outline-none transition-all duration-300 placeholder:text-slate-600 hover:border-white/20 focus:border-violet-500/60 focus:bg-slate-900 focus:ring-4 focus:ring-violet-500/10"
-                                />
-                            </div>
-                        </div>
-
-                        {/* ================= ERROR MESSAGE ================= */}
-                        {error && <FormError error={error}></FormError>}
-
-                        {/* ================= SUCCESS MESSAGE ================= */}
-                        {success && (
-                            <FormSuccess success={success}></FormSuccess>
-                        )}
-
-                        {/* ================= LOGIN BUTTON ================= */}
-                        <button
-                            type="submit"
-                            onClick={handleSubmit}
-                            disabled={loading}
-                            className="group/btn mt-2 w-full rounded-xl bg-violet-600 px-5 py-3.5 text-sm font-semibold text-white shadow-lg shadow-violet-500/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-violet-500 hover:shadow-xl hover:shadow-violet-500/30 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
-                        >
-                            <span className="flex items-center justify-center gap-2">
-                                {loading ? (
-                                    <>
-                                        <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white"></span>
-                                        Logging in...
-                                    </>
-                                ) : (
-                                    <>
-                                        Login
-                                        <span className="transition-transform duration-300 group-hover/btn:translate-x-1">
-                                            →
-                                        </span>
-                                    </>
-                                )}
-                            </span>
-                        </button>
-                    </form>
-
-                    {/* ================= SIGN UP ================= */}
-                    <div className="relative mt-8">
-                        <div className="mb-6 flex items-center gap-4">
-                            <div className="h-px flex-1 bg-white/10" />
-                            <span className="text-xs text-slate-600">
-                                New to QuizAI?
-                            </span>
-                            <div className="h-px flex-1 bg-white/10" />
-                        </div>
-
-                        <p className="text-center text-sm text-slate-400">
-                            Don't have an account?{" "}
-                            <Link
-                                to="/signup"
-                                className="font-semibold text-violet-400 transition-colors duration-300 hover:text-violet-300"
-                            >
-                                Create account
-                            </Link>
-                        </p>
-                    </div>
-                </div>
-
-                {/* Bottom Text */}
-                <p className="mt-6 text-center text-xs text-slate-600">
-                    Learn smarter. Practice better. Powered by AI.
-                </p>
-            </div>
-        </main>
-    );
+				<section className="relative p-7 sm:p-12">
+					<div className="mb-8 flex items-center justify-between">
+						<div>
+							<p className="text-sm font-bold text-indigo-600">Welcome back</p>
+							<h1 className="mt-2 text-3xl font-black tracking-tight sm:text-4xl">
+								Sign in and pick up
+								<br />
+								where you left off.
+							</h1>
+						</div>
+						<span className="text-4xl">✦</span>
+					</div>
+					<form onSubmit={handleSubmit} className="space-y-5">
+						<label className="block text-sm font-semibold text-slate-700">
+							Email
+							<input
+								id="email"
+								type="email"
+								placeholder="you@example.com"
+								value={email}
+								onChange={(event) => setEmail(event.target.value)}
+								required
+								className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-sm outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10"
+							/>
+						</label>
+						<label className="block text-sm font-semibold text-slate-700">
+							Password
+							<div className="mt-2 flex items-center rounded-2xl border border-slate-200 bg-white transition focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/10">
+								<input
+									id="password"
+									type="password"
+									placeholder="Your password"
+									value={password}
+									onChange={(event) => setPassword(event.target.value)}
+									required
+									className="min-w-0 flex-1 rounded-2xl border-0 bg-transparent px-4 py-3.5 text-sm outline-none focus:ring-0"
+								/>
+								<Link
+									to="/forgot-password"
+									className="pr-4 text-xs font-bold text-indigo-600 hover:text-indigo-800"
+								>
+									Forgot?
+								</Link>
+							</div>
+						</label>
+						{error && <FormError error={error} />}
+						{success && <FormSuccess success={success} />}
+						<button
+							type="submit"
+							disabled={loading}
+							className="group w-full rounded-2xl bg-indigo-600 px-5 py-4 text-sm font-bold text-white shadow-xl shadow-indigo-600/20 transition hover:-translate-y-0.5 hover:bg-indigo-700 disabled:cursor-wait disabled:opacity-70"
+						>
+							<span className="flex items-center justify-center gap-3">
+								{loading ? (
+									<>
+										<span className="h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+										Refreshing your space...
+									</>
+								) : (
+									<>
+										Continue learning{' '}
+										<span className="transition group-hover:translate-x-1">
+											→
+										</span>
+									</>
+								)}
+							</span>
+						</button>
+					</form>
+					<p className="mt-8 text-center text-sm text-slate-500">
+						New to Assessly?{' '}
+						<Link
+							to="/signup"
+							className="font-bold text-indigo-600 hover:text-indigo-800"
+						>
+							Create your account
+						</Link>
+					</p>
+				</section>
+			</div>
+			{loading && (
+				<div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/20 backdrop-blur-sm">
+					<div className="rounded-3xl bg-white px-7 py-6 text-center shadow-2xl">
+						<div className="mx-auto h-10 w-10 animate-spin rounded-full border-4 border-indigo-100 border-t-indigo-600" />
+						<p className="mt-4 text-sm font-bold text-slate-700">
+							Setting up your dashboard...
+						</p>
+						<p className="mt-1 text-xs text-slate-400">
+							A moment while we bring everything back.
+						</p>
+					</div>
+				</div>
+			)}
+		</main>
+	);
 }
 
 export default Login;

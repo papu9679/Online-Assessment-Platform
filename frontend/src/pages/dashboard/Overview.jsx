@@ -82,11 +82,12 @@ function Overview() {
 
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+        <p className="text-sm font-black uppercase tracking-[0.18em] text-indigo-600">Your learning workspace</p>
+        <h1 className="mt-2 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
           Welcome back, {user?.name || "User"} 👋
         </h1>
 
-        <p className="mt-2 text-sm text-slate-400 sm:text-base">
+        <p className="mt-2 text-sm text-slate-500 sm:text-base">
           Here's an overview of your quiz activity.
         </p>
       </div>
@@ -114,7 +115,7 @@ function Overview() {
       {/* Performance */}
       <div>
 
-        <h2 className="text-lg font-semibold text-white">
+        <h2 className="text-xl font-black text-slate-900">
           Performance Highlights
         </h2>
 
