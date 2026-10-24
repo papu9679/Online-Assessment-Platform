@@ -9,7 +9,7 @@ function LoggedOutNavbar() {
                     <span className="flex h-9 w-9 items-center justify-center rounded-2xl bg-slate-900 text-sm text-white shadow-lg shadow-slate-900/15 transition-transform group-hover:rotate-6">
                         Q
                     </span>
-                    Quiz<span className="text-indigo-600">AI</span>
+                    Assessly<span className="text-indigo-600">Quizzes</span>App
                 </Link>
 
                 <div className="flex items-center gap-2 sm:gap-5">
