@@ -11,7 +11,6 @@ function AuthContextProvider({ children }) {
     const getProfile = async () => {
         try {
             const api = `${import.meta.env.VITE_BACKEND_BASE_URL}/user/profile`;
-            console.log(api);
             const options = {
                 method: "GET",
                 credentials: "include",
@@ -26,9 +25,10 @@ function AuthContextProvider({ children }) {
                 setUser(data.user);
             }
         }
-        catch (err) {
-            // console.log(err.message);
+        catch {
             setUser(null);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -38,28 +38,18 @@ function AuthContextProvider({ children }) {
 
     // LOGOUT
     async function logout(){
-        console.log("logging out");
-        try{
-            console.log("start");
-            
-            const api = `${import.meta.env.VITE_BACKEND_BASE_URL}/auth/logout`;
-            const res = await fetch(api, {
-                method : "POST",
-                credentials : "include"
-            })
+        const api = `${import.meta.env.VITE_BACKEND_BASE_URL}/auth/logout`;
+        const res = await fetch(api, {
+            method : "POST",
+            credentials : "include"
+        });
 
-            console.log("Make logout call")
-
-            if(!res.ok){
-                throw new Error("Logging Out");
-            }
-
-            setUser(null);
-            navigate('/');
+        if(!res.ok){
+            throw new Error("Logging out failed");
         }
-        catch(err){
-            console.log(err);
-        }
+
+        setUser(null);
+        navigate('/');
     }
 
     return (
