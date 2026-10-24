@@ -39,10 +39,10 @@ function ProfileDropdown({ user, logout }) {
       <button
         onClick={() => setIsOpen((prev) => !prev)}
         className="flex h-10 w-10 items-center justify-center rounded-full
-        border border-violet-500/40 bg-violet-500/10
-        text-sm font-semibold text-violet-300
+        border border-indigo-200 bg-indigo-50
+        text-sm font-semibold text-indigo-700
         transition-all duration-300 cursor-pointer
-        hover:scale-105 hover:border-violet-400 hover:bg-violet-500/20"
+        hover:scale-105 hover:border-indigo-400 hover:bg-indigo-100"
       >
         {user?.name?.[0]?.toUpperCase()}
       </button>
@@ -51,9 +51,9 @@ function ProfileDropdown({ user, logout }) {
       <div
         className={`
           absolute right-0 top-14 w-64 origin-top-right
-          rounded-2xl border border-white/10
-          bg-slate-900/95 p-2 shadow-2xl
-          shadow-black/40 backdrop-blur-xl
+          rounded-2xl border border-slate-200
+          bg-white p-2 shadow-2xl
+          shadow-slate-900/10 backdrop-blur-xl
           transition-all duration-200
 
           ${
@@ -65,14 +65,17 @@ function ProfileDropdown({ user, logout }) {
       >
 
         {/* User Info */}
-        <div className="border-b border-white/10 px-3 py-3">
-          <p className="font-semibold text-white">
+        <div className="border-b border-slate-200 px-3 py-3">
+          <p className="font-semibold text-slate-900">
             {user?.name}
           </p>
 
           <p className="mt-0.5 truncate text-xs text-slate-400">
             {user?.email}
           </p>
+          <span className="mt-2 inline-flex rounded-full bg-indigo-50 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-indigo-700">
+            {user?.role || "USER"}
+          </span>
         </div>
 
         {/* Profile */}
@@ -80,9 +83,9 @@ function ProfileDropdown({ user, logout }) {
           to="/profile"
           onClick={() => setIsOpen(false)}
           className="mt-2 flex items-center gap-3 rounded-xl
-          px-3 py-2.5 text-sm text-slate-300
+          px-3 py-2.5 text-sm text-slate-600
           transition-all duration-200
-          hover:bg-white/5 hover:text-white"
+          hover:bg-slate-50 hover:text-slate-900"
         >
           <span className="text-lg">👤</span>
 
@@ -94,24 +97,24 @@ function ProfileDropdown({ user, logout }) {
           to="/edit-profile"
           onClick={() => setIsOpen(false)}
           className="flex items-center gap-3 rounded-xl
-          px-3 py-2.5 text-sm text-slate-300
+          px-3 py-2.5 text-sm text-slate-600
           transition-all duration-200
-          hover:bg-white/5 hover:text-white"
+          hover:bg-slate-50 hover:text-slate-900"
         >
           <span className="text-lg">✏️</span>
 
           <span>Edit Profile</span>
         </Link>
 
-        <div className="my-2 border-t border-white/10" />
+        <div className="my-2 border-t border-slate-200" />
 
         {/* Logout */}
         <button
           onClick={handleLogout}
           className="flex w-full items-center gap-3 rounded-xl
-          px-3 py-2.5 text-left text-sm text-red-400
+          px-3 py-2.5 text-left text-sm text-red-600
           transition-all duration-200 cursor-pointer
-          hover:bg-red-500/10 hover:text-red-300"
+          hover:bg-red-50 hover:text-red-700"
         >
           <span className="text-lg">↪</span>
 
