@@ -284,3 +284,27 @@ export const getAnalytics = async (req, res) => {
     });
   }
 };
+
+export const getAdminOverview = async (req, res) => {
+  try {
+    const [users, quizzes, attempts, completedAttempts] = await Promise.all([
+      User.countDocuments(),
+      Quiz.countDocuments(),
+      Attempt.countDocuments(),
+      Attempt.countDocuments({ status: "COMPLETED" }),
+    ]);
+
+    return res.status(200).json({
+      stats: {
+        users,
+        quizzes,
+        attempts,
+        completedAttempts,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Unable to load admin overview",
+    });
+  }
+};

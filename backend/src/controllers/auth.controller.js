@@ -75,6 +75,7 @@ const login = async (req, res) => {
         // generate jwt token
         const payload = {
             id: data._id,
+            role: data.role,
             // email, pwd, other data
         };
 
@@ -96,6 +97,7 @@ const login = async (req, res) => {
                 email: data.email,
                 profilePic: data.profilePic,
                 aiQuizGeneratedCount: data.aiQuizGeneratedCount,
+                role: data.role,
             },
         });
     } catch (err) {

@@ -40,7 +40,7 @@ export const updateProfile = async (req, res) => {
     }
 
     const user = await User.findByIdAndUpdate(
-      req.user.userId,
+      req.user.id,
       {
         name: name.trim(),
       },
@@ -141,7 +141,7 @@ export const uploadProfilePicture = async (req, res) => {
     }
 
     const user = await User.findByIdAndUpdate(
-      req.user.userId,
+      req.user.id,
       {
         profilePic: req.file.filename,
       },
