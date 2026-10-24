@@ -5,6 +5,7 @@ import { Routes, Route } from "react-router";
 import Navbar from "./components/Navbar.jsx";
 import CheckUser from "./components/CheckUser.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import AdminRoute from "./components/AdminRoute.jsx";
 
 // pages
 import Home from "./pages/Home.jsx";
@@ -22,6 +23,7 @@ import MyQuizzes from './pages/dashboard/MyQuizzes.jsx';
 import Analytics from './pages/dashboard/Analytics.jsx';
 import QuizView from "./pages/QuizView.jsx";
 import Unauthorized from "./pages/Unauthorized.jsx";
+import AdminDashboard from "./pages/AdminDashboard.jsx";
 
 // Layout
 import DashboardLayout from "./layouts/DashboardLayout.jsx";
@@ -52,6 +54,9 @@ function App() {
                         <Route path="analytics" element={<Analytics></Analytics>}/>
                     </Route>
                     <Route path="/quiz/:quizId/view" element={<QuizView></QuizView>}/>
+                </Route>
+                <Route element={<AdminRoute />}>
+                    <Route path="/admin" element={<AdminDashboard />} />
                 </Route>
                 
                 <Route path="/*" element={<Unauthorized></Unauthorized>}></Route>
