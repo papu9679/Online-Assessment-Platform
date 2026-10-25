@@ -9,7 +9,7 @@ export const generateQuiz = async (req, res) => {
 		// 1
 		const { topic, difficulty, questionTimer } = req.body;
 
-		// 2 user id
+		// 2. user id
 		const userId = req.user.id;
 
 		// 3. generate quiz
