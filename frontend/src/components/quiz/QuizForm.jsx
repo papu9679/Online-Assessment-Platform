@@ -26,7 +26,7 @@ function QuizForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-[2rem] border border-slate-200
+      className="rounded-4xl border border-slate-200
       bg-white p-6 shadow-2xl
       shadow-slate-900/10 backdrop-blur-xl
       transition-all duration-500

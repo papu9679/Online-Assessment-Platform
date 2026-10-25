@@ -351,9 +351,9 @@ function QuizResult() {
 
                         {/* Your Answer */}
 
-                        <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
+                        <div className="rounded-xl border border-white/10 bg-white/2 p-4">
 
-                          <p className="text-xs uppercase tracking-wider text-slate-500">
+                          <p className="text-xs uppercase tracking-wider text-slate-300">
                             Your Answer
                           </p>
 
@@ -415,7 +415,7 @@ function QuizResult() {
 
           <Link
             to="/dashboard"
-            className="rounded-xl border border-white/10 bg-white/[0.03] px-6 py-3 text-center text-sm font-semibold text-slate-300 transition hover:bg-white/[0.07]"
+            className="rounded-xl border border-white/10 bg-white/3 px-6 py-3 text-center text-sm font-semibold text-slate-300 transition hover:bg-white/[0.07]"
           >
             Go to Dashboard
           </Link>

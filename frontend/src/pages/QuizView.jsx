@@ -147,7 +147,7 @@ function QuizView() {
             gap-4
             rounded-2xl
             border border-white/10
-            bg-white/[0.03]
+            bg-white/3
             p-5
           "
         >
@@ -156,7 +156,7 @@ function QuizView() {
               Status
             </p>
 
-            <p className="mt-1 font-semibold text-white">
+            <p className="mt-1 font-semibold text-green-300">
               {attempt.status}
             </p>
           </div>
@@ -168,7 +168,7 @@ function QuizView() {
                   Score
                 </p>
 
-                <p className="mt-1 font-semibold text-white">
+                <p className="mt-1 font-semibold text-amber-500">
                   {attempt.score} / {quiz.questions.length}
                 </p>
               </div>
