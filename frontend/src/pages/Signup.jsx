@@ -54,7 +54,6 @@ function Signup() {
 						<p className="text-sm font-bold text-orange-600">
 							Your next chapter starts here
 						</p>
-                        debugger;
 						<h1 className="mt-2 text-3xl font-black tracking-tight sm:text-4xl">
 							Build a learning habit
 							<br />
