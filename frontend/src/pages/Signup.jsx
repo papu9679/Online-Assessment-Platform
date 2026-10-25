@@ -15,7 +15,7 @@ function Signup() {
 		event.preventDefault();
 		setError('');
 		setSuccess('');
-		setLoading(true);
+		setLoading(false);
 		try {
 			const response = await fetch(
 				`${import.meta.env.VITE_BACKEND_BASE_URL}/auth/signup`,
