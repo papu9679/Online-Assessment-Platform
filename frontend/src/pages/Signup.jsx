@@ -15,7 +15,7 @@ function Signup() {
 		event.preventDefault();
 		setError('');
 		setSuccess('');
-		setLoading(false);
+		setLoading(true);
 		try {
 			const response = await fetch(
 				`${import.meta.env.VITE_BACKEND_BASE_URL}/auth/signup`,
@@ -30,6 +30,8 @@ function Signup() {
 			if (!response.ok) {
 				throw new Error(data.message || 'Unable to create account');
 			}
+            console.log(data);
+            
 			setSuccess(data.message || 'Account created. You can sign in now.');
 			setName('');
 			setEmail('');
@@ -52,6 +54,7 @@ function Signup() {
 						<p className="text-sm font-bold text-orange-600">
 							Your next chapter starts here
 						</p>
+                        debugger;
 						<h1 className="mt-2 text-3xl font-black tracking-tight sm:text-4xl">
 							Build a learning habit
 							<br />
