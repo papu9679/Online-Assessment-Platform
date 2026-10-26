@@ -75,10 +75,15 @@ The backend runs under the `/api` prefix.
 │       ├── routes/         # API route definitions
 │       └── services/       # Shared backend services
 └── frontend/
+	├── App.jsx
+	├── Index.css
+	├── main.jsx
 	└── src/
 		├── components/     # Shared UI components
 		├── context/        # Authentication state
-		└── pages/          # Application pages
+		├── layouts/		# Dashboard layout
+		├── pages/          # Application pages
+		└── services/		# Auth functions
 ```
 
 ## Getting Started
@@ -92,7 +97,7 @@ The backend runs under the `/api` prefix.
 ### 1. Clone and install dependencies
 
 ```bash
-git clone <repository-url>
+git clone "https://github.com/papu9679/Online-Assessment-Platform.git"
 cd "Online Assessment Platform"
 
 cd backend
@@ -158,3 +163,6 @@ npm run build     # Create a production build
 npm run lint      # Run ESLint
 npm run preview   # Preview the production build
 ```
+
+---
+# I Am working with the `sign up` page which is not working properly
