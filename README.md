@@ -2,6 +2,8 @@
 
 An AI-powered online assessment platform for creating quizzes, practicing concepts, and tracking learning progress. The project is organized as a React frontend and an Express/MongoDB backend.
 
+[Live Link](https://online-assessment-platform-nu.vercel.app/) : You can access and give the reviews
+
 ## Overview
 
 The platform is designed to let learners:
