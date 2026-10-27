@@ -30,17 +30,17 @@ const signup = async (req, res) => {
         // console.log(db_res);
 
         const to = email;
-        const subject = "Welcome to Quizzify!";
+        const subject = "Welcome to Assessly!";
         const loginLink = process.env.FRONTEND_BASE_URL + "/login";
-        const html = welcomeEmail(name, loginLink);
+        // const html = welcomeEmail(name, loginLink);
 
-        const mail = await sendEmail(to, subject, html);
+        // const mail = await sendEmail(to, subject, html);
 
         console.log(mail);
 
         // send the response
         res.status(201).json({
-            message: "Account Created, Please Login!",
+            message: "Account Created, Please check the mail box!",
             // user : db_res
         });
     } catch (err) {

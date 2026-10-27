@@ -36,7 +36,6 @@ function Signup() {
 			setName('');
 			setEmail('');
 			setPassword('');
-            setLoading(false);
 		} catch (err) {
 			setError(err.message);
 		} finally {
