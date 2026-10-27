@@ -40,7 +40,7 @@ const signup = async (req, res) => {
 
         // send the response
         res.status(201).json({
-            message: "Account Created, Please check the mail box!",
+            message: "Account Created, Please log in!",
             // user : db_res
         });
     } catch (err) {
