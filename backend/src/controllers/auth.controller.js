@@ -36,7 +36,7 @@ const signup = async (req, res) => {
 
         // const mail = await sendEmail(to, subject, html);
 
-        console.log(mail);
+        // console.log(mail);
 
         // send the response
         res.status(201).json({
