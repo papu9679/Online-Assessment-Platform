@@ -1,163 +1,137 @@
-import React from "react";
+import React from 'react';
 
 function QuizGenerating() {
-  return (
-    <div
-      className="relative overflow-hidden rounded-[2rem] border border-slate-200
+	return (
+		<div
+			className="relative overflow-hidden rounded-4xl border border-slate-200
       bg-white px-6 py-16 shadow-2xl
       shadow-slate-900/10 backdrop-blur-xl
       animate-[fadeIn_0.5s_ease-out] sm:px-10"
-    >
-      {/* Background Glow */}
-      <div
-        className="pointer-events-none absolute left-1/2 top-1/2
+		>
+			{/* Background Glow */}
+			<div
+				className="pointer-events-none absolute left-1/2 top-1/2
         h-64 w-64 -translate-x-1/2 -translate-y-1/2
-        rounded-full         bg-indigo-200/50 blur-[90px]"
-      />
+        rounded-full bg-indigo-200/50 blur-[90px]"
+			/>
 
-      {/* Content */}
-      <div className="relative flex flex-col items-center text-center">
-
-        {/* Animated AI Icon */}
-        <div className="relative mb-8">
-
-          {/* Outer pulse */}
-          <div
-            className="absolute inset-0 rounded-full
+			{/* Content */}
+			<div className="relative flex flex-col items-center text-center">
+				{/* Animated AI Icon */}
+				<div className="relative mb-8">
+					{/* Outer pulse */}
+					<div
+						className="absolute inset-0 rounded-full
             bg-violet-500/20 blur-xl
             animate-pulse"
-          />
+					/>
 
-          {/* Rotating ring */}
-          <div
-            className="absolute -inset-3 rounded-full
+					{/* Rotating ring */}
+					<div
+						className="absolute -inset-3 rounded-full
             border border-indigo-200
             border-t-indigo-600
             animate-spin"
-          />
+					/>
 
-          {/* Icon */}
-          <div
-            className="relative flex h-20 w-20 items-center
+					{/* Icon */}
+					<div
+						className="relative flex h-20 w-20 items-center
             justify-center rounded-2xl
             border border-indigo-200
             bg-indigo-50
             shadow-lg shadow-indigo-500/10"
-          >
-            <span className="text-3xl animate-pulse">
-              ✦
-            </span>
-          </div>
+					>
+						<span className="text-3xl animate-pulse">✦</span>
+					</div>
+				</div>
 
-        </div>
-
-        {/* Small Label */}
-        <p
-          className="mb-3 text-xs font-semibold uppercase
+				{/* Small Label */}
+				<p
+					className="mb-3 text-xs font-semibold uppercase
           tracking-[0.25em] text-indigo-600"
-        >
-          AI is working
-        </p>
+				>
+					AI is working
+				</p>
 
-        {/* Main Heading */}
-        <h2
-          className="text-2xl font-bold tracking-tight
+				{/* Main Heading */}
+				<h2
+					className="text-2xl font-bold tracking-tight
           text-slate-900 sm:text-3xl"
-        >
-          Building your quiz
-          <span className="inline-flex w-8 justify-start">
-            <span className="animate-pulse">...</span>
-          </span>
-        </h2>
+				>
+					Building your quiz
+					<span className="inline-flex w-8 justify-start">
+						<span className="animate-pulse">...</span>
+					</span>
+				</h2>
 
-        {/* Description */}
-        <p
-          className="mt-4 max-w-md text-sm
+				{/* Description */}
+				<p
+					className="mt-4 max-w-md text-sm
           leading-6 text-slate-500"
-        >
-          We're crafting questions based on your topic,
-          difficulty, and preferred pace.
-        </p>
+				>
+					We're crafting questions based on your topic, difficulty, and
+					preferred pace.
+				</p>
 
-        {/* Loading Progress */}
-        <div className="mt-10 w-full max-w-md">
-
-          <div
-            className="h-1.5 overflow-hidden rounded-full
+				{/* Loading Progress */}
+				<div className="mt-10 w-full max-w-md">
+					<div
+						className="h-1.5 overflow-hidden rounded-full
             bg-slate-100"
-          >
-            <div
-              className="h-full w-1/2 rounded-full
-              bg-gradient-to-r from-indigo-600
+					>
+						<div
+							className="h-full w-1/2 rounded-full
+              bg-linear-to-r from-indigo-600
               via-orange-400 to-indigo-600
               animate-[loading_1.5s_ease-in-out_infinite]"
-            />
-          </div>
+						/>
+					</div>
+				</div>
 
-        </div>
-
-        {/* Status */}
-        <div
-          className="mt-6 flex items-center gap-2
+				{/* Status */}
+				<div
+					className="mt-6 flex items-center gap-2
           text-xs font-medium text-slate-500"
-        >
-          <span
-            className="h-1.5 w-1.5 rounded-full
+				>
+					<span
+						className="h-1.5 w-1.5 rounded-full
             bg-violet-400 animate-pulse"
-          />
+					/>
+					Generating thoughtful questions for you
+				</div>
 
-          Generating thoughtful questions for you
-        </div>
-
-        {/* Bottom Cards */}
-        <div
-          className="mt-10 grid w-full max-w-md
+				{/* Bottom Cards */}
+				<div
+					className="mt-10 grid w-full max-w-md
           grid-cols-3 gap-3"
-        >
-          <LoadingStep
-            icon="✦"
-            text="Analyzing"
-            delay="0ms"
-          />
+				>
+					<LoadingStep icon="✦" text="Analyzing" delay="0ms" />
 
-          <LoadingStep
-            icon="◇"
-            text="Generating"
-            delay="200ms"
-          />
+					<LoadingStep icon="◇" text="Generating" delay="200ms" />
 
-          <LoadingStep
-            icon="✓"
-            text="Preparing"
-            delay="400ms"
-          />
-        </div>
-
-      </div>
-    </div>
-  );
+					<LoadingStep icon="✓" text="Preparing" delay="400ms" />
+				</div>
+			</div>
+		</div>
+	);
 }
 
-
 function LoadingStep({ icon, text, delay }) {
-  return (
-    <div
-      style={{
-        animationDelay: delay,
-      }}
-      className="rounded-xl border border-white/[0.07]
+	return (
+		<div
+			style={{
+				animationDelay: delay,
+			}}
+			className="rounded-xl border border-white/[0.07]
       bg-slate-50 px-3 py-4
       animate-pulse"
-    >
-      <div className="text-lg text-indigo-600">
-        {icon}
-      </div>
+		>
+			<div className="text-lg text-indigo-600">{icon}</div>
 
-      <p className="mt-2 text-xs text-slate-500">
-        {text}
-      </p>
-    </div>
-  );
+			<p className="mt-2 text-xs text-slate-500">{text}</p>
+		</div>
+	);
 }
 
 export default QuizGenerating;

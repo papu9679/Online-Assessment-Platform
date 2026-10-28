@@ -17,7 +17,7 @@ function QuizProgress({ currentQuestionIndex, totalQuestions }) {
 
       <div className="h-2 overflow-hidden rounded-full bg-slate-200">
         <div
-          className="h-full rounded-full bg-gradient-to-r from-indigo-600 to-orange-400 transition-all duration-500"
+          className="h-full rounded-full bg-linear-to-r from-indigo-600 to-orange-400 transition-all duration-500"
           style={{
             width: `${progress}%`,
           }}

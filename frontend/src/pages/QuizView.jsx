@@ -1,146 +1,137 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
 
 function QuizView() {
-  const { quizId } = useParams();
+	const { quizId } = useParams();
 
-  const [quiz, setQuiz] = useState(null);
-  const [attempt, setAttempt] = useState(null);
+	const [quiz, setQuiz] = useState(null);
+	const [attempt, setAttempt] = useState(null);
 
-  const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(true);
 
-  const [error, setError] = useState(null);
+	const [error, setError] = useState(null);
 
-  // --------------------------------------------------
-  // Fetch Quiz
-  // --------------------------------------------------
-  async function fetchQuiz() {
-    const api = `${import.meta.env.VITE_BACKEND_BASE_URL}/quizzes/${quizId}`;
+	// --------------------------------------------------
+	// Fetch Quiz
+	// --------------------------------------------------
+	async function fetchQuiz() {
+		const api = `${import.meta.env.VITE_BACKEND_BASE_URL}/quizzes/${quizId}`;
 
-    const options = {
-      method: "GET",
-      credentials: "include",
-    };
+		const options = {
+			method: 'GET',
+			credentials: 'include',
+		};
 
-    const response = await fetch(api, options);
+		const response = await fetch(api, options);
 
-    const data = await response.json();
+		const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error(data.message || "Failed to fetch quiz");
-    }
+		if (!response.ok) {
+			throw new Error(data.message || 'Failed to fetch quiz');
+		}
 
-    return data.quiz;
-  }
+		return data.quiz;
+	}
 
-  // --------------------------------------------------
-  // Fetch Attempt
-  // --------------------------------------------------
-  async function fetchAttempt() {
-    const api = `${import.meta.env.VITE_BACKEND_BASE_URL}/quizzes/${quizId}/attempt`;
+	// --------------------------------------------------
+	// Fetch Attempt
+	// --------------------------------------------------
+	async function fetchAttempt() {
+		const api = `${import.meta.env.VITE_BACKEND_BASE_URL}/quizzes/${quizId}/attempt`;
 
-    const options = {
-      method: "GET",
-      credentials: "include",
-    };
+		const options = {
+			method: 'GET',
+			credentials: 'include',
+		};
 
-    const response = await fetch(api, options);
+		const response = await fetch(api, options);
 
-    const data = await response.json();
+		const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error(data.message || "Failed to fetch attempt");
-    }
+		if (!response.ok) {
+			throw new Error(data.message || 'Failed to fetch attempt');
+		}
 
-    return data.attempt;
-  }
+		return data.attempt;
+	}
 
-  // --------------------------------------------------
-  // Load Quiz + Attempt
-  // --------------------------------------------------
-  async function loadQuizData() {
-    try {
-      setLoading(true);
+	// --------------------------------------------------
+	// Load Quiz + Attempt
+	// --------------------------------------------------
+	async function loadQuizData() {
+		try {
+			setLoading(true);
 
-      setError(null);
+			setError(null);
 
-      const quizData = await fetchQuiz();
+			const quizData = await fetchQuiz();
 
-      const attemptData = await fetchAttempt();
+			const attemptData = await fetchAttempt();
 
-      setQuiz(quizData);
+			setQuiz(quizData);
 
-      setAttempt(attemptData);
+			setAttempt(attemptData);
+		} catch (err) {
+			setError(err.message);
+		} finally {
+			setLoading(false);
+		}
+	}
 
-    } catch (err) {
+	useEffect(() => {
+		loadQuizData();
+	}, [quizId]);
 
-      setError(err.message);
+	// --------------------------------------------------
+	// Get user's selected answer
+	// --------------------------------------------------
+	function getSelectedAnswer(questionIndex) {
+		const answer = attempt?.answers?.find(
+			(item) => item.questionIndex === questionIndex,
+		);
 
-    } finally {
+		return answer?.selectedOption ?? null;
+	}
 
-      setLoading(false);
+	// --------------------------------------------------
+	// Loading
+	// --------------------------------------------------
+	if (loading) {
+		return (
+			<div className="min-h-screen bg-[#f8f7f3] p-8 text-slate-500">
+				Loading quiz...
+			</div>
+		);
+	}
 
-    }
-  }
+	// --------------------------------------------------
+	// Error
+	// --------------------------------------------------
+	if (error) {
+		return (
+			<div className="min-h-screen bg-[#f8f7f3] p-8">
+				<div className="rounded-2xl border border-red-500/20 bg-red-500/5 p-5 text-red-300">
+					{error}
+				</div>
+			</div>
+		);
+	}
 
-  useEffect(() => {
-    loadQuizData();
-  }, [quizId]);
+	return (
+		<div className="min-h-screen bg-[#f8f7f3] px-4 py-8 text-slate-900">
+			<div className="mx-auto max-w-5xl space-y-8">
+				{/* Header */}
+				<div>
+					<h1 className="text-3xl font-bold">{quiz.title}</h1>
 
-  // --------------------------------------------------
-  // Get user's selected answer
-  // --------------------------------------------------
-  function getSelectedAnswer(questionIndex) {
-    const answer = attempt?.answers?.find(
-      (item) => item.questionIndex === questionIndex
-    );
+					<p className="mt-2 text-slate-400">
+						{quiz.topic} • {quiz.difficulty}
+					</p>
+				</div>
 
-    return answer?.selectedOption ?? null;
-  }
-
-  // --------------------------------------------------
-  // Loading
-  // --------------------------------------------------
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-[#f8f7f3] p-8 text-slate-500">
-        Loading quiz...
-      </div>
-    );
-  }
-
-  // --------------------------------------------------
-  // Error
-  // --------------------------------------------------
-  if (error) {
-    return (
-      <div className="min-h-screen bg-[#f8f7f3] p-8">
-        <div className="rounded-2xl border border-red-500/20 bg-red-500/5 p-5 text-red-300">
-          {error}
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="min-h-screen bg-[#f8f7f3] px-4 py-8 text-slate-900">
-
-      <div className="mx-auto max-w-5xl space-y-8">
-
-        {/* Header */}
-        <div>
-          <h1 className="text-3xl font-bold">
-            {quiz.title}
-          </h1>
-
-          <p className="mt-2 text-slate-400">
-            {quiz.topic} • {quiz.difficulty}
-          </p>
-        </div>
-
-        {/* Attempt Summary */}
-        <div
-          className="
+				{/* Attempt Summary */}
+				<div
+					className="
             flex flex-wrap
             items-center
             justify-between
@@ -150,95 +141,84 @@ function QuizView() {
             bg-white/3
             p-5
           "
-        >
-          <div>
-            <p className="text-sm text-slate-500">
-              Status
-            </p>
+				>
+					<div>
+						<p className="text-sm text-slate-500">Status</p>
 
-            <p className="mt-1 font-semibold text-green-300">
-              {attempt.status}
-            </p>
-          </div>
+						<p className="mt-1 font-semibold text-green-300">
+							{attempt.status}
+						</p>
+					</div>
 
-          {attempt.status === "COMPLETED" && (
-            <>
-              <div>
-                <p className="text-sm text-slate-500">
-                  Score
-                </p>
+					{attempt.status === 'COMPLETED' && (
+						<>
+							<div>
+								<p className="text-sm text-slate-500">Score</p>
 
-                <p className="mt-1 font-semibold text-amber-500">
-                  {attempt.score} / {quiz.questions.length}
-                </p>
-              </div>
+								<p className="mt-1 font-semibold text-amber-500">
+									{attempt.score} / {quiz.questions.length}
+								</p>
+							</div>
 
-              <div>
-                <p className="text-sm text-slate-500">
-                  Percentage
-                </p>
+							<div>
+								<p className="text-sm text-slate-500">Percentage</p>
 
-                <p className="mt-1 text-xl font-bold text-indigo-400">
-                  {attempt.percentage}%
-                </p>
-              </div>
-            </>
-          )}
-        </div>
+								<p className="mt-1 text-xl font-bold text-indigo-400">
+									{attempt.percentage}%
+								</p>
+							</div>
+						</>
+					)}
+				</div>
 
-        {/* Questions */}
-        <div className="space-y-6">
+				{/* Questions */}
+				<div className="space-y-6">
+					{quiz.questions.map((question, questionIndex) => {
+						const selectedOption = getSelectedAnswer(questionIndex);
 
-          {quiz.questions.map((question, questionIndex) => {
-            const selectedOption =
-              getSelectedAnswer(questionIndex);
-
-            return (
-              <div
-                key={questionIndex}
-                className="
+						return (
+							<div
+								key={questionIndex}
+								className="
                   rounded-2xl
                   border border-white/10
-                  bg-white/[0.03]
+                  bg-white/3
                   p-6
                 "
-              >
-                {/* Question */}
-                <p className="text-sm text-indigo-400">
-                  Question {questionIndex + 1}
-                </p>
+							>
+								{/* Question */}
+								<p className="text-sm text-indigo-400">
+									Question {questionIndex + 1}
+								</p>
 
-                <h2 className="mt-2 text-lg font-semibold">
-                  {question.question}
-                </h2>
+								<h2 className="mt-2 text-lg font-semibold">
+									{question.question}
+								</h2>
 
-                {/* Options */}
-                <div className="mt-5 space-y-3">
+								{/* Options */}
+								<div className="mt-5 space-y-3">
+									{question.options.map((option, optionIndex) => {
+										const isCorrect = optionIndex === question.correctOption;
 
-                  {question.options.map((option, optionIndex) => {
-                    const isCorrect =
-                      optionIndex === question.correctOption;
+										const isSelected = optionIndex === selectedOption;
 
-                    const isSelected =
-                      optionIndex === selectedOption;
+										let optionClass =
+											'border-white/10 bg-slate-950/30 text-slate-300';
 
-                    let optionClass =
-                      "border-white/10 bg-slate-950/30 text-slate-300";
+										if (isCorrect) {
+											optionClass =
+												'border-green-500/40 bg-green-500/10 text-green-300';
+										}
 
-                    if (isCorrect) {
-                      optionClass =
-                        "border-green-500/40 bg-green-500/10 text-green-300";
-                    }
+										if (isSelected && !isCorrect) {
+											optionClass =
+												'border-red-500/40 bg-red-500/10 text-red-300';
+										}
 
-                    if (isSelected && !isCorrect) {
-                      optionClass =
-                        "border-red-500/40 bg-red-500/10 text-red-300";
-                    }
-
-                    return (
-                      <div
-                        key={optionIndex}
-                        className={`
+										return (
+											<div
+												key={optionIndex}
+												className={`
                           flex
                           items-center
                           justify-between
@@ -248,48 +228,32 @@ function QuizView() {
                           py-3
                           ${optionClass}
                         `}
-                      >
-                        <span>
-                          {option}
-                        </span>
+											>
+												<span>{option}</span>
 
-                        <div className="flex gap-2 text-xs font-medium">
+												<div className="flex gap-2 text-xs font-medium">
+													{isSelected && <span>Your Answer</span>}
 
-                          {isSelected && (
-                            <span>
-                              Your Answer
-                            </span>
-                          )}
+													{isCorrect && <span>Correct</span>}
+												</div>
+											</div>
+										);
+									})}
+								</div>
 
-                          {isCorrect && (
-                            <span>
-                              Correct
-                            </span>
-                          )}
-
-                        </div>
-                      </div>
-                    );
-                  })}
-
-                </div>
-
-                {/* Unanswered */}
-                {selectedOption === null && (
-                  <p className="mt-4 text-sm text-slate-500">
-                    You did not answer this question.
-                  </p>
-                )}
-
-              </div>
-            );
-          })}
-
-        </div>
-
-      </div>
-    </div>
-  );
+								{/* Unanswered */}
+								{selectedOption === null && (
+									<p className="mt-4 text-sm text-slate-500">
+										You did not answer this question.
+									</p>
+								)}
+							</div>
+						);
+					})}
+				</div>
+			</div>
+		</div>
+	);
 }
 
 export default QuizView;

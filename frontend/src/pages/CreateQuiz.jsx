@@ -1,253 +1,169 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import QuizForm from "../components/quiz/QuizForm";
-import QuizGenerating from "../components/quiz/QuizGenerating";
-import QuizReady from "../components/quiz/QuizReady";
+import QuizForm from '../components/quiz/QuizForm';
+import QuizGenerating from '../components/quiz/QuizGenerating';
+import QuizReady from '../components/quiz/QuizReady';
 
 function CreateQuiz() {
+	// ================= STATES =================
 
-  // ================= STATES =================
+	const [loading, setLoading] = useState(false);
+	const [quiz, setQuiz] = useState(null);
 
-  const [loading, setLoading] = useState(false);
-  const [quiz, setQuiz] = useState(null);
-  
-  const [error, setError] = useState(null);
-  const [formData, setFormData] = useState({
-    topic: "",
-    difficulty: "MEDIUM",
-    questionTimer: 40,
-  });
+	const [error, setError] = useState(null);
+	const [formData, setFormData] = useState({
+		topic: '',
+		difficulty: 'EASY',
+		questionTimer: 40,
+	});
 
+	// ================= HANDLE CHANGE =================
 
-  // ================= HANDLE CHANGE =================
+	const handleChange = (e) => {
+		const { name, value } = e.target;
 
-  const handleChange = (e) => {
+		setFormData((prev) => ({
+			...prev,
 
-    const { name, value } = e.target;
+			[name]: name === 'questionTimer' ? Number(value) : value,
+		}));
+	};
 
-    setFormData((prev) => ({
-      ...prev,
+	// ================= GENERATE QUIZ =================
 
-      [name]:
-        name === "questionTimer"
-          ? Number(value)
-          : value,
-    }));
+	const handleSubmit = async (e) => {
+		e.preventDefault();
 
-  };
+		try {
+			setLoading(true);
 
+			setError(null);
 
-  // ================= GENERATE QUIZ =================
+			const api = `${import.meta.env.VITE_BACKEND_BASE_URL}/quizzes/generate`;
+			const options = {
+				// 1. Specify the HTTP method
+				method: 'POST',
 
-  const handleSubmit = async (e) => {
+				// 2. Define content types and authentication
+				headers: {
+					'Content-Type': 'application/json',
+				},
 
-    e.preventDefault();
+				// 3. for cookies
+				credentials: 'include',
 
-    try {
+				// 4. Serialize your JavaScript object into a JSON string
+				body: JSON.stringify(formData),
+			};
 
-      setLoading(true);
+			const response = await fetch(api, options);
+			const data = await response.json();
 
-      setError(null);
+			if (!response.ok) {
+				throw new Error(data.message || 'Failed to generate quiz');
+			}
 
-      const api = `${import.meta.env.VITE_BACKEND_BASE_URL}/quizzes/generate`;
-      const options = {
-                // 1. Specify the HTTP method
-                method: "POST",
+			// Generated quiz received from backend
+			setQuiz(data.quiz);
+		} catch (err) {
+			setError(err.message);
+		} finally {
+			setLoading(false);
+		}
+	};
 
-                // 2. Define content types and authentication
-                headers: {
-                    "Content-Type": "application/json",
-                },
+	// ================= UI =================
 
-                // 3. for cookies
-                credentials: "include",
+	return (
+		<main className="relative min-h-[calc(100vh-73px)] overflow-hidden bg-[#f8f7f3] px-5 py-12 text-slate-900">
+			{/* ================= BACKGROUND ================= */}
 
-                // 4. Serialize your JavaScript object into a JSON string
-                body: JSON.stringify(formData),
-            };
-
-      const response = await fetch(api, options);
-      const data = await response.json();
-
-
-      if (!response.ok) {
-        throw new Error(
-          data.message || "Failed to generate quiz"
-        );
-      }
-
-
-      // Generated quiz received from backend
-      setQuiz(data.quiz);
-
-    }
-    catch (err) {
-      setError(err.message);
-    }
-    finally {
-      setLoading(false);
-    }
-
-  };
-
-  
-
-
-  // ================= UI =================
-
-  return (
-
-    <main
-      className="relative min-h-[calc(100vh-73px)]
-      overflow-hidden bg-[#f8f7f3] px-5 py-12 text-slate-900"
-    >
-
-      {/* ================= BACKGROUND ================= */}
-
-      <div className="pointer-events-none absolute inset-0">
-
-        <div
-          className="absolute inset-0 opacity-[0.035]"
-          style={{
-            backgroundImage: `
+			<div className="pointer-events-none absolute inset-0">
+				<div
+					className="absolute inset-0 opacity-[0.035]"
+					style={{
+						backgroundImage: `
               linear-gradient(to right, #cbd5e1 1px, transparent 1px),
               linear-gradient(to bottom, #cbd5e1 1px, transparent 1px)
             `,
-            backgroundSize: "70px 70px",
-          }}
-        />
+						backgroundSize: '70px 70px',
+					}}
+				/>
 
-        <div
-          className="absolute left-1/2 top-10
-          h-[450px] w-[450px]
+				<div
+					className="absolute left-1/2 top-10
+          h-112.5 w-112.5
           -translate-x-1/2 rounded-full
           bg-indigo-200/50 blur-[130px]"
-        />
+				/>
 
-        <div
-          className="absolute -bottom-20 -left-20
+				<div
+					className="absolute -bottom-20 -left-20
           h-80 w-80 rounded-full
           bg-orange-200/50 blur-[120px]"
-        />
+				/>
+			</div>
 
-      </div>
+			{/* ================= CONTENT ================= */}
 
+			<div className="relative mx-auto max-w-3xl">
+				{/* ================= HEADING ================= */}
 
-      {/* ================= CONTENT ================= */}
+				<div className="mb-10 text-center animate-[fadeIn_0.6s_ease-out]">
+					<div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl border border-violet-500/20  bg-violet-500/10 text-2xl shadow-lg shadow-violet-500/10">
+						✦
+					</div>
 
-      <div className="relative mx-auto max-w-3xl">
+					<p className="mb-2 text-xs font-semibold uppercase tracking-[0.25em]  text-indigo-600">
+						AI Quiz Generator
+					</p>
 
+					<h1 className="text-3xl font-bold tracking-tight sm:text-5xl">
+						Create your next
+						<span className="bg-linear-to-r  from-indigo-600 to-orange-500 bg-clip-text text-transparent">
+							{' '}
+							challenge
+						</span>
+					</h1>
 
-        {/* ================= HEADING ================= */}
+					<p
+						className="mx-auto mt-4 max-w-xl text-sm leading-6 text-slate-500 sm:text-base"
+					>
+						Pick a topic, choose your difficulty, set your pace, and let AI
+						build a quiz just for you.
+					</p>
+				</div>
 
-        <div
-          className="mb-10 text-center
-          animate-[fadeIn_0.6s_ease-out]"
-        >
+				{/* ================= ERROR ================= */}
 
-          <div
-            className="mx-auto mb-5 flex h-14 w-14
-            items-center justify-center rounded-2xl
-            border border-violet-500/20
-            bg-violet-500/10 text-2xl
-            shadow-lg shadow-violet-500/10"
-          >
-            ✦
-          </div>
+				{error && (
+					<div
+						className="mb-5 rounded-xl border border-red-500/20  bg-red-500/10 px-4 py-3 text-center text-sm text-red-300"
+					>
+						{error}
+					</div>
+				)}
 
+				{/* ================= STATE 1 ================= */}
 
-          <p
-            className="mb-2 text-xs font-semibold
-            uppercase tracking-[0.25em]
-            text-indigo-600"
-          >
-            AI Quiz Generator
-          </p>
+				{!loading && !quiz && (
+					<QuizForm
+						formData={formData}
+						handleChange={handleChange}
+						handleSubmit={handleSubmit}
+					/>
+				)}
 
+				{/* ================= STATE 2 ================= */}
 
-          <h1
-            className="text-3xl font-bold
-            tracking-tight sm:text-5xl"
-          >
-            Create your next
+				{loading && <QuizGenerating />}
 
-            <span
-              className="bg-gradient-to-r
-              from-indigo-600 to-orange-500
-              bg-clip-text text-transparent"
-            >
-              {" "}challenge
-            </span>
+				{/* ================= STATE 3 ================= */}
 
-          </h1>
-
-
-          <p
-            className="mx-auto mt-4 max-w-xl
-            text-sm leading-6             text-slate-500
-            sm:text-base"
-          >
-            Pick a topic, choose your difficulty,
-            set your pace, and let AI build a quiz
-            just for you.
-          </p>
-
-        </div>
-
-
-        {/* ================= ERROR ================= */}
-
-        {error && (
-
-          <div
-            className="mb-5 rounded-xl
-            border border-red-500/20
-            bg-red-500/10 px-4 py-3
-            text-center text-sm text-red-300"
-          >
-            {error}
-          </div>
-
-        )}
-
-
-        {/* ================= STATE 1 ================= */}
-
-        {!loading && !quiz && (
-
-          <QuizForm
-            formData={formData}
-            handleChange={handleChange}
-            handleSubmit={handleSubmit}
-          />
-
-        )}
-
-
-        {/* ================= STATE 2 ================= */}
-
-        {loading && (
-
-          <QuizGenerating />
-
-        )}
-
-
-        {/* ================= STATE 3 ================= */}
-
-        {!loading && quiz && (
-
-          <QuizReady
-            quiz={quiz}
-          />
-
-        )}
-
-      </div>
-
-    </main>
-
-  );
+				{!loading && quiz && <QuizReady quiz={quiz} />}
+			</div>
+		</main>
+	);
 }
 
 export default CreateQuiz;
