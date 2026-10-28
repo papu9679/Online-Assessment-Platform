@@ -58,7 +58,8 @@ function CreateQuiz() {
 
 			const response = await fetch(api, options);
 			const data = await response.json();
-
+			console.log('data',data);
+			
 			if (!response.ok) {
 				throw new Error(data.message || 'Failed to generate quiz');
 			}
@@ -126,9 +127,7 @@ function CreateQuiz() {
 						</span>
 					</h1>
 
-					<p
-						className="mx-auto mt-4 max-w-xl text-sm leading-6 text-slate-500 sm:text-base"
-					>
+					<p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-slate-500 sm:text-base">
 						Pick a topic, choose your difficulty, set your pace, and let AI
 						build a quiz just for you.
 					</p>
@@ -137,9 +136,7 @@ function CreateQuiz() {
 				{/* ================= ERROR ================= */}
 
 				{error && (
-					<div
-						className="mb-5 rounded-xl border border-red-500/20  bg-red-500/10 px-4 py-3 text-center text-sm text-red-300"
-					>
+					<div className="mb-5 rounded-xl border border-red-500/20  bg-red-500/10 px-4 py-3 text-center text-sm text-red-300">
 						{error}
 					</div>
 				)}

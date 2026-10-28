@@ -187,7 +187,7 @@ function QuizForm({
       <div>
         <div className="mb-6 flex items-start justify-between">
           <div>
-            <p className="text-sm font-semibold text-slate-200">
+            <p className="text-sm font-semibold text-slate-300">
               Time per question
             </p>
 
@@ -197,7 +197,7 @@ function QuizForm({
           </div>
 
           <div
-            className="ml-4 flex min-w-[82px] items-center
+            className="ml-4 flex min-w-20.5 items-center
             justify-center rounded-xl border border-violet-500/30
             bg-violet-500/10 px-3 py-2"
           >
@@ -288,7 +288,7 @@ function QuizForm({
 
           <span
             className="rounded-lg border border-white/10
-            bg-white/[0.03] px-3 py-1.5
+            bg-white/3 px-3 py-1.5
             text-xs text-slate-300"
           >
             {formData.questionTimer}s / question
@@ -315,7 +315,7 @@ function QuizForm({
       >
         <span
           className="absolute inset-0 -translate-x-full
-          bg-gradient-to-r from-transparent
+          bg-linear-to-r from-transparent
           via-white/10 to-transparent
           transition-transform duration-700
           group-hover:translate-x-full"
