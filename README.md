@@ -168,3 +168,7 @@ npm run preview   # Preview the production build
 
 ---
 # I Am working with the `sign up` page which is not working properly
+
+
+## You can check the Architecture diagram here
+[![Architecture diagram](https://gitdiagram.com/diagram-badge.svg)](https://gitdiagram.com/papu9679/online-assessment-platform?utm_source=readme&utm_medium=badge)
