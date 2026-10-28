@@ -4,7 +4,7 @@ function QuestionCard({
   onSelectOption,
 }) {
   return (
-    <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-xl shadow-slate-900/5 sm:p-8">
+    <div className="rounded-4xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-900/5 sm:p-8">
 
       <div className="mb-6 flex items-center gap-2 text-xs font-black uppercase tracking-[0.18em] text-indigo-600">
         <span className="h-2 w-2 rounded-full bg-indigo-500" />
