@@ -28,7 +28,7 @@ function PerformanceSummary({ performance, user }) {
 	};
 
 	return (
-		<div className="rounded-[1.5rem] border border-slate-200 bg-white p-6 shadow-sm">
+		<div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
 			<div className="flex flex-col items-center text-center">
 				{/* Profile Photo */}
 				<div className="relative">
