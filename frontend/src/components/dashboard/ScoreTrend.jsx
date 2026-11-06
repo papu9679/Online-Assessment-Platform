@@ -50,7 +50,7 @@ function CustomTooltip({ active, payload }) {
 function ScoreTrend({ scoreTrend = [] }) {
   if (!scoreTrend.length) {
     return (
-      <div className="rounded-[1.5rem] border border-slate-200 bg-white p-6 shadow-sm">
+      <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
         <h2 className="text-lg font-black text-slate-900">
           Quiz Score Trend
         </h2>
@@ -68,7 +68,7 @@ function ScoreTrend({ scoreTrend = [] }) {
   }));
 
   return (
-    <div className="rounded-[1.5rem] border border-slate-200 bg-white p-6 shadow-sm">
+    <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
 
       {/* Header */}
       <div>
@@ -82,7 +82,7 @@ function ScoreTrend({ scoreTrend = [] }) {
       </div>
 
       {/* Graph */}
-      <div className="mt-6 h-[320px] w-full">
+      <div className="mt-6 h-80 w-full">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
             data={graphData}
