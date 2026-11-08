@@ -12,11 +12,6 @@ const signup = async (req, res) => {
         const {name, email, password} = req.body;
         const user = req.body;
 
-        // hashing the password
-        const hashedPwd = await hash(user.password, 10);
-
-        const newUser = { ...user, password: hashedPwd };
-
         // check user exist or not
         const checkUser = await User.findOne({email});
         if(checkUser){
@@ -25,13 +20,18 @@ const signup = async (req, res) => {
             })
         }
 
+        // hashing the password
+        const hashedPwd = await hash(user.password, 10);
+
+        const newUser = { ...user, password: hashedPwd };
+
         // store it in db
         const db_res = await User.create(newUser);
         // console.log(db_res);
 
         const to = email;
         const subject = "Welcome to Assessly!";
-        const loginLink = process.env.FRONTEND_BASE_URL + "/login";
+        const loginLink = `${process.env.FRONTEND_BASE_URL}/login`;
         // const html = welcomeEmail(name, loginLink);
 
         // const mail = await sendEmail(to, subject, html);
